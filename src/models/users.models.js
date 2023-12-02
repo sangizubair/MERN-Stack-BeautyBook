@@ -28,13 +28,18 @@ const userSchema= new Schema({
     avatar:{
         type:String,
     },
+    appointments:[{
+        type:mongoose.Types.ObjectId,
+        ref: "Booking",
+        
+    }],
     
     refreshToken:{
         type:String
     },
     
 
-}, {timestamps:true}
+},  {timestamps:true}
 )
 
 // create object of the user 

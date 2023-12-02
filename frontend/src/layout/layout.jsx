@@ -1,0 +1,23 @@
+
+import React from "react";
+import Header from "../components/Header/header.jsx";
+import Footer from "../components/Footer/footer.jsx";
+import Routers from "../routes/Routers.jsx";
+
+const Layout = ()=>{
+
+    return(
+        <>
+        
+       <Header/>
+      
+       <main>
+        <Routers/>
+       </main>
+
+       <Footer/>
+        
+        </>
+    )
+}
+export default Layout
