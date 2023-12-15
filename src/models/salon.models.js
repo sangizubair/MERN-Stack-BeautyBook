@@ -1,6 +1,18 @@
 import { Schema } from "mongoose";
 import mongoose from "mongoose";
 
+const serviceSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    price: {
+        type: String,
+        required: true,
+    },
+});
+
+
 const salonSchema= new Schema({
 
     ownerName:{
@@ -43,6 +55,7 @@ const salonSchema= new Schema({
         type:Number,
         default:0
     },
+    services: [serviceSchema], 
     reviews:[{
         type:mongoose.Types.ObjectId, 
         ref:"Review"
@@ -64,8 +77,7 @@ const salonSchema= new Schema({
 
     appointments:[{
         type:mongoose.Types.ObjectId,
-        ref: "Booking",
-        
+        ref: "Booking", 
     }]
 });
 

@@ -92,8 +92,8 @@ const handleStickyHeader= ()=>{
                          </Link>
                        </div>
 
-                       <Link to='/register'>
-                        <button className="bg-primaryColor py-2 px-6 flex items-center text-white font-[600] h-[44px] justify-center rounded-[50px]">
+                       <Link to='/signup'>
+                        <button className="bg-btnColor py-2 px-6 flex items-center text-white font-[600] h-[44px] justify-center rounded-[50px]">
                             Register
                         </button>
                        

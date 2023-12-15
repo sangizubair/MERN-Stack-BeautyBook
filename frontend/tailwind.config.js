@@ -14,6 +14,9 @@ export default {
         irisBlueColor: "#01B5C5",
         headingColor: "#181A1E",
         textColor: "#4E545F",
+        btnColor:"#DD9F9F",
+        cardBgColor:"#F5F5F5",
+        signUpBgColor:'#FFF'
            
       },
       boxShadow:{
