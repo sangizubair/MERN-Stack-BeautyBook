@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
 // schema for booking 
-
 const bookingSchema= new Schema ({
     salon:{
         type:mongoose.Types.ObjectId,
@@ -26,12 +25,12 @@ const bookingSchema= new Schema ({
 
      appointmentDate: { // date of appointment user can select any date if the date is available
         type: Date,
-        required: true,
+        // required: true,
       },
 
       timeSlot: { // time slot of the appointment
         type: String,
-        required: true,
+       // required: true,
       },
 
       status: {  // status of the booking
@@ -42,7 +41,7 @@ const bookingSchema= new Schema ({
 
       isPaid: { // 20 % of the total amount will be paid by the user
         type: Boolean,
-        default: true,
+        default: false,
       },
 }
 , {

@@ -10,8 +10,9 @@ import { Link } from 'react-router-dom';
 
 const SalonDetails = () => {
   const { token, salon } = useContext(authContext);
-  const { id } = useParams();
+  const { id  } = useParams();
   const [salonDetails, setSalonDetails] = useState({});
+  const [selectedService, setSelectedService] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -40,6 +41,7 @@ const SalonDetails = () => {
         setLoading(false);
       }
     };
+    
 
     fetchSalonDetails();
   }, [id]);
@@ -56,6 +58,7 @@ const SalonDetails = () => {
               <img src={salonDetails.photo} alt={''} className="w-full h-full" />
             </figure>
             <h1 className="text-3xl font-bold mb-2">{salonDetails.salonName || 'Beauty Salon'}</h1>
+            
             {/* <h2>{salonDetails.ownerName}</h2> */}
             <p>
               {salonDetails.address || 'Address'} 
@@ -79,7 +82,7 @@ const SalonDetails = () => {
                         </td>
                         <td className="border-b border-solid px-4 py-2 text-sm">{service.price}</td>
                         <td className="border-b border-solid px-4 py-2 text-sm">
-                        <Link to={`/booking?serviceName=${encodeURIComponent(service.name)}&serviceDescription=${encodeURIComponent(service.serviceDescription)}&servicePrice=${encodeURIComponent(service.price)}`}>
+                        <Link to={`/booking/${id}/service/${service.id}`}>
                           <button className="bg-btnColor text-white px-2 py-1 mt-2">Book</button>
                         </Link>
                         </td>

@@ -131,21 +131,4 @@ export const getUserProfile = async(req,res)=>{
     }
 
 
-    // creat booking controller
-
-    export const createBooking = async(req,res)=>{
-            
-          try {
-           res.body.status="pending"
-           const newbooking= new Booking(req.body)
-           await newbooking.save();
-           
-            const user= await User.findById(req.user.id);
-
-            
-            
-          } catch (error) {
-            
-          }
-       
-    }
+    
