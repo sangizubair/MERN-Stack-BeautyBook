@@ -1,85 +1,151 @@
-import { Schema } from "mongoose";
 import mongoose from "mongoose";
+import { Schema } from "mongoose";
+
 
 const serviceSchema = new Schema({
     name: {
         type: String,
-        required: true,
+       // required: true,
+    },
+
+    serviceDescription: {
+        type: String,
+       // required: true,
     },
     price: {
+        type: Number,
+       // required: true,
+    },
+    timeSlots: [{
+        // day: {
+        //     type: String,
+        //     enum: ['', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        //   //  required: true,
+        // },
+        startTime: {
+            type: String,
+          //  required: true,
+        },
+        // endTime: {
+        //     type: String,
+        //   //  required: true,
+        // },
+    }],
+});
+  
+
+
+ 
+// schema for salon
+const salonSchema = new Schema({
+    ownerName: {
         type: String,
         required: true,
     },
-});
-
-
-const salonSchema= new Schema({
-
-    ownerName:{
+    salonName: {
         type: String,
-        required:true,
-
+        required: true,
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        index: true,
     },
-    password:{
-       type:String,
-       required:true
+    password: {
+        type: String,
+        required: true,
     },
-
-    // profile update 
-    phone:{
-        type:Number
+    cnicNo: {
+        type: String,
+        required: true,
+        unique: true,
+        index: true,
     },
-    // uplaod on cloudinary 
-    photo:{
-        type:String
+    gender: {
+        type: String,
+        enum: ["male", "female", "other"],
+        required: true,
     },
-    price:{
-        type:String
+    role: {
+        type: String,
+        enum: ["salon", "admin"],
+        default: "salon",
     },
-    experince:{
-        type:Array
+    phone: {
+        type: Number,
+        required: true,
     },
-    bio:{
-       type:String,
-       maxLength:50
+    photo: {
+        type: String,
     },
-    about:{
-        type:String
-    },
-    timeSlot:{
-        type:Number,
-        default:0
-    },
-    services: [serviceSchema], 
-    reviews:[{
-        type:mongoose.Types.ObjectId, 
-        ref:"Review"
+   
+    // coeve images array of iamges
+    coverImage: [{
+        type: String,
     }],
-    averageRating:{
-        type:Number,
-        default:0
+    experience: {
+        type: String, // Assuming experience is a string, change to the appropriate type
+    },
+    bio: {
+        type: String,
+        maxLength: 50,
+    },
+    location: {
+        type: String,
+    },
+    address: {
+        type: String,
     },
 
-    totalRating:{
-        type:Number,
-        default:0
-    },
-    isApproved:{
-        type:String,
-        enum:['pending','approved','canceled'],
-        default:'pending'
-    },
+    services: [serviceSchema],
+    
+    workingHours: [{
+        day: {
+            type: String,
+            enum: ['', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+          //  required: true,
+        },
+       
+          // 
+        dayOnOff: {
+            type: Boolean,
+            enum: ['', 'on', 'off'],
+          //  required: true,
+        },
+        
+        
+        startTime: {
+            type: String,
+          //  required: true,
+        },
+        endTime: {
+            type: String,
+          //  required: true,
+        },
+    }],
 
-    appointments:[{
-        type:mongoose.Types.ObjectId,
-        ref: "Booking", 
-    }]
+    reviews: [{
+        type: mongoose.Types.ObjectId,
+        ref: "Review",
+    }],
+    averageRating: {
+        type: Number,
+        default: 0,
+    },
+    totalRating: {
+        type: Number,
+        default: 0,
+    },
+    isApproved: {
+        type: String,
+        enum: ['pending', 'approved', 'canceled'],
+        default: 'pending',
+    },
+    appointments: [{
+        type: mongoose.Types.ObjectId,
+        ref: "Booking",
+    }],
 });
 
-// creating salon object schema 
-export const Salon= mongoose.model("Salon",salonSchema)
+export const Salon = mongoose.model("Salon", salonSchema);

@@ -1,110 +1,113 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import salons from '../../assets/data/salon';
-import StarRating from '../../components/Rating/rating.jsx';
-import { useState } from 'react';
-import Feedback from './Feedback.jsx';
-import SidePanel from './SidePanel.jsx';
+import { BASE_URL } from '../../../config';
+import { authContext } from '../../context/AuthContext';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+// import useLocation
+
+
 
 const SalonDetails = () => {
+  const { token, salon } = useContext(authContext);
   const { id } = useParams();
-  const selectedSalon = salons.find(salon => salon.id === id);
-  // Add state for managing service visibility
-  const [showAllServices, setShowAllServices] = useState(false);
+  const [salonDetails, setSalonDetails] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  if (!selectedSalon) {
-    return <div>Salon not found</div>;
-  }
+  useEffect(() => {
+    const fetchSalonDetails = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/salons/${id}`, {
+          method: 'get',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
 
-  const {
-    salonName,
-    expereince,
-    avgRating,
-    totalRating,
-    photo,
-    totalClients,
-    location,
-    phone,
-    type,
-    about,
-    services,
-  } = selectedSalon;
+          },
+        });
 
-  // Show only the first 5 services or all services based on the state
-  const visibleServices = Array.isArray(services) ? (showAllServices ? services : services.slice(0, 5)) : [];
+        if (!response.ok) {
+          throw new Error('Failed to fetch salon details');
+        }
 
+        const salonData = await response.json();
+        setSalonDetails(salonData.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching salon details:', error.message);
+        setError('Something went wrong while fetching salon details.');
+        setLoading(false);
+      }
+    };
+
+    fetchSalonDetails();
+  }, [id]);
 
   return (
-    <section>
-      <div className='max-w-[1170px] px-5 mx-auto'>
-        <div className='grid md:grid-cols-3 gap-[30px]'>
-          <div className='md:col-span-2'>
-            <div className='flex items-center'>
-              <img src={photo} alt={salonName} className='w-80 h-80' />
-            </div>
-            <div>
-              <h2>{salonName}</h2>
-              <p>Location: {location}</p>
-              {/* <p>Experience: {expereince}</p>
-              <p>Average Rating: {avgRating} ({totalRating} reviews)</p>
-              <p>Total Clients: {totalClients}</p>
-              <p>Phone: {phone}</p>
-              <p>Type: {type}</p>
-              <p>About: {about}</p> */}
-              <div className='flex items-center gap-[6px]'>
-                <span className='flex items-center gap-2'>{avgRating}</span>
-                {<StarRating />} <span className='text-[14px] leading-6  lg:text-[16px] lg:leading-7 text-textColor font-[400]'>({totalRating})</span>
-              </div>
-
-              {/* Display services if available */}
-              {services && services.length > 0 && (
-                <div className='mt-8'>
-                  <h3>Services:</h3>
-                  <table className="table-auto mt-2">
-                    <thead>
+    
+    <div className='flex justify-center items-center'>
+      {loading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
+      {salonDetails && (
+        <div className='w-full max-w-[1170px] flex justify-center items-center'>
+          <section className="w-3/4 mr-10">
+            <figure className="w-[500px] h-[300px] border-2 border-solid mb-4">
+              <img src={salonDetails.photo} alt={''} className="w-full h-full" />
+            </figure>
+            <h1 className="text-3xl font-bold mb-2">{salonDetails.salonName || 'Beauty Salon'}</h1>
+            {/* <h2>{salonDetails.ownerName}</h2> */}
+            <p>
+              {salonDetails.address || 'Address'} 
+            </p>
+            {/* Display other details as needed */}
+            {/* ... (other salon details) */}
+            <div className='mt-10'>
+              <h2 className="text-xl font-semibold mb-2">Service</h2>
+              <table className="w-full border-collapse">
+                <tbody>
+                  {salonDetails.services && salonDetails.services.map(service => (
+                    <React.Fragment key={service.id}>
                       <tr>
-                        <th className="px-4 py-2 border-b-2">Service</th>
-                        <th className="px-4 py-2 border-b-2">Price</th>
-                        {/* <th className="px-4 py-2 border-b-2">Actions</th> */}
+                        <td className="border-b border-solid px-4 py-2 ">
+                        <span className="font-extrabold">{service.name}</span>
+                         <div className='mt-1'>
+                          <p >
+                            {service.serviceDescription}
+                          </p>
+                         </div>
+                        </td>
+                        <td className="border-b border-solid px-4 py-2 text-sm">{service.price}</td>
+                        <td className="border-b border-solid px-4 py-2 text-sm">
+                        <Link to={`/booking?serviceName=${encodeURIComponent(service.name)}&serviceDescription=${encodeURIComponent(service.serviceDescription)}&servicePrice=${encodeURIComponent(service.price)}`}>
+                          <button className="bg-btnColor text-white px-2 py-1 mt-2">Book</button>
+                        </Link>
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {visibleServices.map((service, index) => (
-                        <tr key={index} className="border-t-2">
-                          <td className="px-4 py-2">{service.name}</td>
-                          <td className="px-4 py-2">{service.price}</td>
-                          <td className="px-4 py-2">
-                            <button className="bg-btnColor text-white px-4 py-2 rounded">Book</button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                  {!showAllServices && services.length > 5 && (
-                    <button className="mt-2 text-blue-500" onClick={() => setShowAllServices(true)}>
-                      See All
-                    </button>
-                  )}
-                </div>
-              )}
+                    </React.Fragment>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          </div>
-          
-          <div>
-            <SidePanel />
-          </div>
+          </section>
+
+          <section className="w-1/4 bg-white p-4">
+            <div className="mb-4">
+              <h2 className="text-xl font-semibold mb-2">Contact</h2>
+              <p>Email: {salonDetails.email}</p>
+              {/* Add other contact details */}
+            </div>
+
+            <div>
+              <h2 className="text-xl font-semibold mb-2">Address</h2>
+              <p>{salonDetails.address}</p>
+              {/* Add other address details */}
+            </div>
+          </section>
+
         </div>
-        <section>
-          <Feedback />
-        </section>
-
-
-      </div>
-
-
-
-
-    </section>
+      )}
+    </div>
   );
 };
 

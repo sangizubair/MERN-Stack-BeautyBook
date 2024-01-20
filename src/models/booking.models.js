@@ -1,13 +1,9 @@
-import { Schema } from "mongoose";
 import mongoose from "mongoose";
+import { Schema } from "mongoose";
 
 // schema for booking 
 
 const bookingSchema= new Schema ({
-
-    // salon owner
-    // user or customer 
-    
     salon:{
         type:mongoose.Types.ObjectId,
         ref:"Salon",
@@ -20,22 +16,39 @@ const bookingSchema= new Schema ({
         ref:"User",
         required:true
     },
-    appointmentDate: {
+
+    services:[{
+        // ref from service model object
+        type:mongoose.Types.ObjectId,
+        ref:"Service",
+        required:true
+    }],
+
+     appointmentDate: { // date of appointment user can select any date if the date is available
         type: Date,
         required: true,
       },
-      status: {
+
+      timeSlot: { // time slot of the appointment
+        type: String,
+        required: true,
+      },
+
+      status: {  // status of the booking
         type: String,
         enum: ["pending", "approved", "cancelled"],
         default: "pending",
       },
 
-      isPaid: {
+      isPaid: { // 20 % of the total amount will be paid by the user
         type: Boolean,
         default: true,
       },
-
-},  { timestamps: true }
+}
+, {
+    timestamps: true,
+  }
 );
 
-export const Booking= mongoose.model("Booking",bookingSchema) 
+
+export const Booking = mongoose.model("Booking", bookingSchema);

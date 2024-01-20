@@ -1,14 +1,14 @@
 // auth routes for users
-
-
 import express from 'express';
-import { register ,login } from '../controllers/authController.js';
+import { registerUser , loginUser , registerSalon , loginSalon } from '../controllers/authController.js';
 
-const router= express.Router();
+const router= express.Router();  // auth routes here
 
 // our routes here to login and register
 
-router.post('/register',register),
-router.post('/login',login);
+router.post('/register', registerUser),
+router.post('/login', loginUser);
+router.post('/salonregister',registerSalon), // for salon only
+router.post('/salonlogin',loginSalon);   // for salon only
 
 export default router

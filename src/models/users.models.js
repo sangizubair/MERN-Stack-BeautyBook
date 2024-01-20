@@ -4,45 +4,46 @@
 // email // unique , req
 // password encryptetd // req
 // avatar optional
-
-import { Schema } from "mongoose";
 import mongoose from "mongoose";
-
-const userSchema= new Schema({
-    userName:{
-        type:String,
-        required:true,
-
-    },
-    email:{
-        type:String,
-        required:true,
-        unique:true
+const userSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
 
     },
-    password:{
-        type:String,
-        required:true,
+    email: {
+        type: String,
+        required: true,
+        unique: true
 
     },
-    avatar:{
-        type:String,
+    password: {
+        type: String,
+        required: true,
+
     },
-    appointments:[{
-        type:mongoose.Types.ObjectId,
+    photo: {
+        type: String,
+    },
+    gender: {
+        type: String, enum: ["male", "female", "other"]
+    },
+
+    appointments: [{
+        type: mongoose.Types.ObjectId,
         ref: "Booking",
         
     }],
     
-    refreshToken:{
-        type:String
+    role: {
+        type: String,
+        enum: ["user", "admin" , ],
+        default: "user", // Set a default role for new users
     },
-    
-
-},  {timestamps:true}
+}, { timestamps: true }
 )
 
 // create object of the user 
-export const User= mongoose.model("User", userSchema);
+export default mongoose.model("User", userSchema);
 
 

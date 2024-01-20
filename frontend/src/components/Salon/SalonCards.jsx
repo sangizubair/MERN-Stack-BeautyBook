@@ -1,37 +1,89 @@
-import React from 'react';
-import StarRating from '../../components/Rating/rating.jsx';
-const SalonCards = ({ salon }) => {
-    // total rating is review actually 
-    const { salonName, avgRating, totalRating, photo, loactoin, expereince, totalClients, type } = salon
+import React, { useState, useEffect, useContext } from 'react';
+import { BASE_URL } from '../../../config';
+import { authContext } from '../../context/AuthContext';
+import { Link } from 'react-router-dom';
+const SalonCard = () => {
+  const { token, salon } = useContext(authContext);
+  const [allSalons, setAllSalons] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    return (
-        <>
-            <div className='flex flex-col justify-items-center p-2 lg:p-3 '>
-                <div>
-                    <img src={photo} alt="" />
-                </div>
+  useEffect(() => {
+    const fetchAllSalons = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/salons/${salon._id}/all`, {
+          method: 'get',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
 
-                <h2 className='text-[18px] leading-[30px] lg:text-[26px] lg:leading-9 text-headingColor font-[700] mt-3 lg:mt-5'>
-                    {salonName}
-                </h2>
+        if (!response.ok) {
+          throw new Error('Failed to fetch all salons');
+        }
 
-                <div className='flex place-items- gap-[6px]'>
-                    <span className='flex items-center gap-2'>{avgRating}</span>
-                    {<StarRating />} <span className='text-[14px] leading-6  lg:text-[16px] lg:leading-7 text-textColor font-[400]'>({totalRating})</span>
-                </div>
-                <div className='mt-2 lg:mt-3 flex items-center justify-between'>
-                    {type}
-                {/* <Link to={'/salon'} className='w-[20px] h-[20px]  rounded-full border border-solid border-[#181A1E] mt-[20px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
-                    <BsArrowRight className='group-hover:text-white w-4 h-4'/>
-                  </Link> */}
-                </div>
-                
-                
-            </div>
+        const salonsData = await response.json();
+        setAllSalons(salonsData.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching all salons:', error.message);
+        setError('Something went wrong while fetching all salons.');
+        setLoading(false);
+      }
+    };
+    
+    if (token && salon) {
+      fetchAllSalons();
+    }
+   
+     
+  }, [token, salon]);
+
+  const salonsToDisplay = allSalons.filter((salonItem) => salonItem._id !== salon._id);
+
+  return (
+      <>
+       <section className='bg-[#fff9ea]'>
+        <div className='container text-center'>
+          <h2 className='heading'>Find a Salon</h2>
+          <div className='max-w-[570px] mt-[30px] bg-[#0066ff2c] mx-auto rounded-md flex items-center  justify-center  '>
+            <input type="text" className='py-4 pl-4 pr-2 bg-transparent w-full focus:outline-none cursor-pointer placeholder:text-textColor' placeholder='search salon..' />
+            <button className='bg-btnColor btn mt-0 rounded-[0px] rounded-r-md'>
+              Search
+            </button>
+          </div>
+        </div>
+      </section>
+    <section className="flex justify-center items-center">
+      <div className="max-w-[1170px] px-5 mx-auto ">
+        {loading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
+        <div className="grid md:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {salonsToDisplay.map((salonItem) => (
+            <Link to={`/salonDetail/${salonItem._id}`} key={salonItem._id}>
+              <div className="salon-card p-8">
+                {/* Display salon details here */}
+                <figure className='w-[100px] h-[100px] rounded-full border-2 border-solid mb-4'>
+                  <img src={salonItem.photo} alt={''} className='w-full h-full' />
+                </figure>
+                <h3 className="text-lg font-semibold">{salonItem.ownerName}</h3>
+                <p className="text-gray-500">{salonItem.address}</p>
+                {/* ... (other salon details) */}
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    </>
+  );
+};
+
+export default SalonCard;
 
 
-        </>
-    )
-}
 
-export default SalonCards
+
+    

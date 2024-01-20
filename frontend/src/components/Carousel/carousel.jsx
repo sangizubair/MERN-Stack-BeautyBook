@@ -60,11 +60,11 @@ function Carousel() {
   return (
     <div className='max-w-[1400px] h-[780px] w-full m-auto py-0  relative group'>
        {/* Search bar positioned on top of the carousel */}
-       <div className='absolute text-white top-0 left-0 right-0 z-10 mx-auto my-24 text-center text-2xl'>
-        <h1>
-         New stylist. New life. New you.
+       <div className='absolute text-white top-0 left-0 right-0 z-10 mx-auto my-24 text-center  '>
+        <h1 className='text-5xl font-bold'>
+        New stylist. New life. New you.
         </h1>
-        <h1>
+        <h1 className='p-5 text-base font-semibold'>
          Discover and book beauty professionals near you
         </h1>
        </div>

@@ -1,22 +1,231 @@
 // all the auth controllers are here
+import User from "../models/users.models.js"
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import { Salon } from "../models/salon.models.js";
 
+// generateToken function
+const generateToken = user=>{
+     return  jwt.sign({id:user._id , role:user.role},process.env.ACCESS_TOKEN_SECRET,{
+        expiresIn:'15d',
+     });
+}
+   
 // register controller
-export const register= async(req,res)=>{
+export const registerUser = async (req, res) => {
     try {
-        // logic here
+        const { name, email, password, gender, photo ,  } = req.body
+
+        let user = null
+        user = await User.findOne({ email })
+
+        // check if user alreadyexist
+
+        if (user) {
+            return res.status(400).json({
+                message: 'User already exist'
+            })
+        }
+
+        //  hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(password, salt);
+
+        user = new User({
+            name,
+            email,
+            password: hashPassword,
+            photo,
+            gender,
+            role: req.body.role || 'user', // Check if user role is undefined and provide a default value
+        })
+
+        await user.save();
+        res.status(200).json({
+            success: true,
+            message: 'User created successfully'
+        })
 
     } catch (error) {
-        // error here
+        res.status(500).json({
+            message: 'user doesnt created',
+            success: false
+        })
     }
 }
 
+ 
 
 // login controller
-export const login= async(req,res)=>{
+export const loginUser = async (req, res) => {
     try {
-        // logic here
+       
+        const {email}= req.body;
+
+         let user= await User.findOne({email});
+          
+         // check if the  user exit or not 
+         if (!user) { // agar user register nahi ha
+            return res.status(404).json({
+                message:"user not found",
+                success:false
+            })
+         }
+         // compare the password
+         const isPasswordMatch= await bcrypt.compare(req.body.password, user.password);
+         if (!isPasswordMatch) {
+            return res.status(404).json({
+                message:"user's password not matched..",
+                success:false
+            })
+         }
+
+         // get token
+         const token= generateToken(user);
+         const {password, appointments, ...rest}= user._doc
+         // Check if user role is undefined and provide a default value
+         const userRole = rest.role || 'user';
+        //console.log('Login Response:', { token, data: { ...rest } });
+         res.status(200).json({
+            status:true,
+            message:"successfully login", token, data:{...rest, role:userRole}
+         })
 
     } catch (error) {
         // error here
+        res.status(500).json({
+            message:"Invalid credentials",
+            status:false
+        })
+    }
+}
+
+// logout controller for user
+
+// export const logout = async(req,res) =>{
+//     try {
+//            // logic  here
+           
+
+//     } catch (error) {
+//            // error here
+//     }
+// }
+
+
+const generateTokenSalon = salon => {
+    return jwt.sign({ id: salon._id, role: salon.role }, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: '15d',
+    });
+
+}
+
+// register controller for salon
+export const registerSalon = async (req, res) => {
+    const { ownerName, salonName, email, password, gender, photo, coverImage , phone, cnicNo, experience,
+        bio,
+        location,
+        address,
+        services, workingHours } = req.body;
+    try {
+
+        let salon = null
+        salon = await Salon.findOne({ email })
+
+        // check if user alreadyexist
+
+        if (salon) {
+            return res.status(400).json({
+                message: 'Salon already exist'
+            })
+        }
+
+        //  hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(password, salt);
+
+        salon = new Salon({
+            ownerName,
+            salonName,
+            email,
+            password: hashPassword,
+            gender,
+            role: req.body.role || 'salon', // Check if salon role is undefined and provide a default value
+            phone,
+            cnicNo,
+            photo,
+            coverImage,
+            experience,
+            bio,
+            location,
+            address,
+            services,
+            workingHours,
+        })
+
+        await salon.save();
+        res.status(200).json({
+            success: true,
+            message: 'Salon created successfully'
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            message: 'salon doesnt created',
+            success: false
+
+        })
+        console.log(error);
+    }
+
+}
+
+
+
+// login controller for salon
+export const loginSalon = async (req, res) => {
+    try {
+
+        const { email } = req.body;
+
+        let salon = await Salon.findOne({ email });
+
+        // check if the  user exit or not 
+        if (!salon) { // agar user register nahi ha
+            return res.status(404).json({
+                message: "salon not found",
+                success: false
+            })
+        }
+        // compare the password
+        const isPasswordMatch = await bcrypt.compare(req.body.password, salon.password);
+        if (!isPasswordMatch) {
+            return res.status(404).json({
+                message: "salon's password not matched..",
+                success: false
+
+            }
+            )
+
+        }
+
+        // get token
+        const token = generateTokenSalon(salon);
+        const { password, appointments, ...rest } = salon._doc
+        // Check if user role is undefined and provide a default value
+        const salonRole = rest.role || 'salon';
+        //console.log('Login Response:', { token, data: { ...rest } });
+        res.status(200).json({
+            status: true,
+            message: "successfully login", token, data: { ...rest, role: salonRole }
+        })
+
+    } catch (error) {
+        // error here
+        res.status(500).json({
+            message: "Invalid credentials",
+            status: false
+        })
+        console.log(error);
     }
 }
