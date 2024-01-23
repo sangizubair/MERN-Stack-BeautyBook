@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { Salon } from "../models/salon.models.js";
 import { Booking } from "../models/booking.models.js";
+import { Service } from "../models/salon.models.js";
+
 
 // generateToken function
 const generateToken = user=>{
@@ -204,10 +206,8 @@ export const loginSalon = async (req, res) => {
             return res.status(404).json({
                 message: "salon's password not matched..",
                 success: false
-
             }
             )
-
         }
 
         // get token
@@ -233,7 +233,7 @@ export const loginSalon = async (req, res) => {
 
 export const bookSalonService = async (req, res) => {
     try {
-      const { salonId, userId, services, appointmentDate, timeSlot } = req.body;
+      const { salonId, userId, services, appointmentDate, timeSlot ,  paymentProofImg } = req.body;
   
       // Check if the salon exists
       const salon = await Salon.findById(salonId);
@@ -252,6 +252,7 @@ export const bookSalonService = async (req, res) => {
           success: false,
         });
       }
+   
   
       // Create a new booking object
       const booking = new Booking({
@@ -260,19 +261,23 @@ export const bookSalonService = async (req, res) => {
         services,
         appointmentDate,
         timeSlot,
+        paymentProofImg ,
         status: 'pending',
         isPaid: false, // Modify this based on your business logic
       });
   
       // Save the booking
       await booking.save();
+      //console.log('Booking created:', booking);
 
-      // after this  update and save the user and salon objects
+      // Add the booking to the user's appointments array
         user.appointments.push(booking);
         await user.save();
+
+        // Add the booking to the salon's appointments array
         salon.appointments.push(booking);
         await salon.save();
-  
+
       res.status(200).json({
         message: 'Booking created successfully',
         success: true,
@@ -286,4 +291,75 @@ export const bookSalonService = async (req, res) => {
       });
     }
   };
+
+       
+
+  // delete booking controller
+
+// in this user can delete his/her booking
+export const deleteBooking = async (req, res) => {
+    try {
+      const { bookingId } = req.params; // booking id
+      const { userId } = req.body;  // user id
+  
+      // Check if the booking exists
+      const booking = await Booking.findById(bookingId);
+      if (!booking) {
+        return res.status(404).json({
+          message: 'Booking not found',
+          success: false,
+        });
+      }
+  
+      // Check if the user exists
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({
+          message: 'User not found',
+          success: false,
+        });
+      }
+  
+      // Check if the booking belongs to the user
+      if (booking.user.toString() !== userId) {
+        return res.status(401).json({
+          message: 'You are not authorized to delete this booking',
+          success: false,
+        });
+      }
+  
+      // Delete the booking
+      await booking.delete();
+  
+      // Remove the booking from the user's appointments array
+       user.appointments = user.appointments.filter(
+        (appointment) => appointment.toString() !== bookingId
+      );
+      await user.save();
+  
+      // Remove the booking from the salon's appointments array
+      const salon = await Salon.findById(booking.salon);
+      salon.appointments = salon.appointments.filter(
+        (appointment) => appointment.toString() !== bookingId
+      );
+      await salon.save();
+  
+      res.status(200).json({
+        message: 'Booking deleted successfully',
+        success: true,
+      });
+    } catch (error) {
+      console.error('Error deleting booking:', error);
+      res.status(500).json({
+        message: 'Failed to delete booking',
+        success: false,
+      });
+    }
+  };
+
+
+  
+
+    
+
   

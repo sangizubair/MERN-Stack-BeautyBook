@@ -4,11 +4,10 @@ import { updatedSalon ,  getSingleSalon , getAllSalon , getSalonProfile , delete
 import { authenticate , restrictsalon } from '../auth/verifToken.js';
 
 const router= express.Router();  // auth routes here
-
 // our routes here to login and register
 
 router.put('/:id', authenticate,  restrictsalon(["salon"])  , updatedSalon  ); // for salon only
-router.delete('/:id', authenticate, restrictsalon(["salon"]) , deleteSalon); // for salon only
+router.delete('/:id',  deleteSalon); // for salon only
 router.get('/:id', authenticate,restrictsalon(["salon"]) , getSingleSalon); // for salon only
 router.get('/:id/all',  restrictsalon(["salon"]) , getAllSalon); // for admin only can get all salon
 router.get('/',  getAllSalongeneral); 

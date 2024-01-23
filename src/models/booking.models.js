@@ -17,20 +17,23 @@ const bookingSchema= new Schema ({
     },
 
     services:[{
-        // ref from service model object
-        type:mongoose.Types.ObjectId,
-        ref:"Service",
-        required:true
+       
     }],
 
      appointmentDate: { // date of appointment user can select any date if the date is available
         type: Date,
-        // required: true,
+       // required: true,
       },
 
       timeSlot: { // time slot of the appointment
         type: String,
        // required: true,
+      },
+
+      paymentProofImg:{ // will be uploaded by the user after the payment is done
+        type:String,  // image
+        required:true
+        
       },
 
       status: {  // status of the booking

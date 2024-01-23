@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
-
-
 const serviceSchema = new Schema({
     name: {
         type: String,
@@ -32,6 +30,8 @@ const serviceSchema = new Schema({
         // },
     }],
 });
+
+export const Service = mongoose.model("Service", serviceSchema);
   
 
 
@@ -58,9 +58,7 @@ const salonSchema = new Schema({
     },
     cnicNo: {
         type: String,
-        required: true,
-        unique: true,
-        index: true,
+           
     },
     gender: {
         type: String,
@@ -106,7 +104,6 @@ const salonSchema = new Schema({
             enum: ['', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
           //  required: true,
         },
-       
           // 
         dayOnOff: {
             type: Boolean,
@@ -142,10 +139,7 @@ const salonSchema = new Schema({
         enum: ['pending', 'approved', 'canceled'],
         default: 'pending',
     },
-    appointments: [{
-        type: mongoose.Types.ObjectId,
-        ref: "Booking",
-    }],
+    appointments: [],
 });
 
 export const Salon = mongoose.model("Salon", salonSchema);

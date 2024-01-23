@@ -729,13 +729,13 @@ const SalonRegister = () => {
     bio: '',
     location: '', // city or town name
     address: '', // street address or salon address
-
     services: [
       {
         name: '',
         serviceDescription:'',
         price: 0,
         timeSlots: [{startTime: '',  }],
+
       },
     ],
 

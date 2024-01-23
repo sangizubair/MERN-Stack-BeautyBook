@@ -12,7 +12,6 @@ const SalonDetails = () => {
   const { token, salon } = useContext(authContext);
   const { id  } = useParams();
   const [salonDetails, setSalonDetails] = useState({});
-  const [selectedService, setSelectedService] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -71,7 +70,7 @@ const SalonDetails = () => {
                 <tbody>
                   {salonDetails.services && salonDetails.services.map(service => (
                     <React.Fragment key={service.id}>
-                      <tr>
+                      <tr> 
                         <td className="border-b border-solid px-4 py-2 ">
                         <span className="font-extrabold">{service.name}</span>
                          <div className='mt-1'>
@@ -82,10 +81,10 @@ const SalonDetails = () => {
                         </td>
                         <td className="border-b border-solid px-4 py-2 text-sm">{service.price}</td>
                         <td className="border-b border-solid px-4 py-2 text-sm">
-                        <Link to={`/booking/${id}/service/${service.id}`}>
+                         <Link to={`/booking/${id}/service/${service._id}`}>
                           <button className="bg-btnColor text-white px-2 py-1 mt-2">Book</button>
                         </Link>
-                        </td>
+                        </td> 
                       </tr>
                     </React.Fragment>
                   ))}

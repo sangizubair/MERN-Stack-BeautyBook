@@ -31,6 +31,7 @@ const userRegister = () => {
     });
   };
 
+  // function for image upload in cloudinary
   const handleFileInputChange = async (event) => {
     const file = event.target.files[0];
 
@@ -95,7 +96,7 @@ const userRegister = () => {
             className='flex flex-col items-center'
           >
             <div className='flex flex-col sm:flex-row gap-3 items-center mb-5'>
-         { selectedFile && <figure className='w-[60px] h-[60px] rounded-full border-2 border-solid border-white flex items-center justify-center'>
+          { selectedFile && <figure className='w-[60px] h-[60px] rounded-full border-2 border-solid border-white flex items-center justify-center'>
             <img
               src={previewUrl}
               className='w-full rounded-full'

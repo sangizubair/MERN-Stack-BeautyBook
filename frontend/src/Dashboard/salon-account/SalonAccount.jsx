@@ -41,7 +41,6 @@ const SalonAccount = () => {
         if (!response.ok) {
           throw new Error('Failed to fetch user profile');
         }
-
         const userData = await response.json();
         setUserProfile(userData.data);
         setLoading(false);

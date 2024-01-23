@@ -22,10 +22,10 @@ const Routers = () => {
      <Routes>
       <Route path='/' element={<Home/>}/>
       <Route path='/salon' element={<Salon/>}/>
-      <Route path='/salonDetail/:id//service/:id' element={<SalonDetail/>}/>
+      <Route path='/salonDetail/:id' element={<SalonDetail/>}/>
       {/* <Route path='/login' element={<Login/>}/> */}
       <Route path='/services' element={<Services/>}/>
-      <Route path='/booking/:id' element={ <ProtectedRoute allowedRoles={['user' , 'salon']} > <Booking/></ProtectedRoute> }/>
+      <Route path='/booking/:id/service/:serviceId' element={ <ProtectedRoute allowedRoles={['user' , 'salon']} > <Booking/></ProtectedRoute> }/>
       {/* <Route path='/register' element={<Register/>}/> */}
       <Route path='/login' element={<Login/>}/>
       <Route path='/salonLogin' element={<SalonLogin/>}/>
