@@ -4,13 +4,14 @@ import { BASE_URL } from '../../../config';
 import { authContext } from '../../context/AuthContext';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import SidePanel from './SidePanel';
 // import useLocation
 
 
 
 const SalonDetails = () => {
   const { token, salon } = useContext(authContext);
-  const { id  } = useParams();
+  const { id } = useParams();
   const [salonDetails, setSalonDetails] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -40,13 +41,13 @@ const SalonDetails = () => {
         setLoading(false);
       }
     };
-    
+
 
     fetchSalonDetails();
   }, [id]);
 
   return (
-    
+
     <div className='flex justify-center items-center'>
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
@@ -57,10 +58,10 @@ const SalonDetails = () => {
               <img src={salonDetails.photo} alt={''} className="w-full h-full" />
             </figure>
             <h1 className="text-3xl font-bold mb-2">{salonDetails.salonName || 'Beauty Salon'}</h1>
-            
+
             {/* <h2>{salonDetails.ownerName}</h2> */}
             <p>
-              {salonDetails.address || 'Address'} 
+              {salonDetails.address || 'Address'}
             </p>
             {/* Display other details as needed */}
             {/* ... (other salon details) */}
@@ -70,21 +71,21 @@ const SalonDetails = () => {
                 <tbody>
                   {salonDetails.services && salonDetails.services.map(service => (
                     <React.Fragment key={service.id}>
-                      <tr> 
+                      <tr>
                         <td className="border-b border-solid px-4 py-2 ">
-                        <span className="font-extrabold">{service.name}</span>
-                         <div className='mt-1'>
-                          <p >
-                            {service.serviceDescription}
-                          </p>
-                         </div>
+                          <span className="font-extrabold">{service.name}</span>
+                          <div className='mt-1'>
+                            <p >
+                              {service.serviceDescription}
+                            </p>
+                          </div>
                         </td>
                         <td className="border-b border-solid px-4 py-2 text-sm">{service.price}</td>
                         <td className="border-b border-solid px-4 py-2 text-sm">
-                         <Link to={`/booking/${id}/service/${service._id}`}>
-                          <button className="bg-btnColor text-white px-2 py-1 mt-2">Book</button>
-                        </Link>
-                        </td> 
+                          <Link to={`/booking/${id}/service/${service._id}`}>
+                            <button className="bg-btnColor text-white px-2 py-1 mt-2">Book</button>
+                          </Link>
+                        </td>
                       </tr>
                     </React.Fragment>
                   ))}
@@ -93,21 +94,58 @@ const SalonDetails = () => {
             </div>
           </section>
 
-          <section className="w-1/4 bg-white p-4">
-            <div className="mb-4">
-              <h2 className="text-xl font-semibold mb-2">Contact</h2>
-              <p>Email: {salonDetails.email}</p>
-              {/* Add other contact details */}
-            </div>
+          <section className="w-1/4 bg-white p-4 ">
+            <div className='shadow-panelShadow p-3  lg:p-5 rounded-md'>
+              <div className=' flex flex-col items-start'>
+                <p className='text__para mt-0  font-semibold text-headingColor '>
+                  ABOUT US
+                </p>
+                <p className='text-[16px] text__para leading-7  mt-4 text-textColor'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, molestias?</p>
+              </div>
+              <hr />
+              <div className='mt-[30px]'>
+                <p className='text__para mt-0  font-semibold text-headingColor '>
+                  CONTACT & BUSINESS HOURS
+                </p>
 
-            <div>
-              <h2 className="text-xl font-semibold mb-2">Address</h2>
-              <p>{salonDetails.address}</p>
-              {/* Add other address details */}
+                <div className='flex justify-stretch gap-2 mt-4 items-center'>
+                  <p className=' text__para mt-0 text-headingColor'>
+
+                  </p><span className='text-textColor'>923144684607</span>
+                </div>
+              </div>
+              <hr />
+
+              <div className='mt-[30px]'>
+                <p className='text__para mt-0 font-semibold text-headingColor'>
+                  Availble Time Slots
+                </p>
+                <table className="w-full border-collapse">
+          <thead>
+            <tr>
+              <th className="border-b border-solid px-4 py-2">Day</th>
+              <th className="border-b border-solid px-4 py-2">Working Hours</th>
+            </tr>
+          </thead>
+          <tbody>
+            {salonDetails.workingHours && salonDetails.workingHours.map((hours, index) => (
+              <tr key={index}>
+                <td className="border-b border-solid px-4 py-2">{hours.day}</td>
+                <td className="border-b border-solid px-4 py-2">
+                  
+                  {hours.dayOnOff ? `${hours.startTime} - ${hours.endTime}` : 'Closed'}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+              </div>
             </div>
           </section>
 
+
         </div>
+
       )}
     </div>
   );

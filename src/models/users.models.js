@@ -29,10 +29,7 @@ const userSchema = new mongoose.Schema({
         type: String, enum: ["male", "female", "other"]
     },
 
-    appointments: [{
-        type: mongoose.Types.ObjectId,
-        ref: "Booking",
-        
+    appointments: [{    
     }],
     
     role: {

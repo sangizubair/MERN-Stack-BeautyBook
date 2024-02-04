@@ -231,9 +231,10 @@ export const loginSalon = async (req, res) => {
     }
 }
 
+// create booking controller
 export const bookSalonService = async (req, res) => {
     try {
-      const { salonId, userId, services, appointmentDate, timeSlot ,  paymentProofImg } = req.body;
+      const { salonId,salonName, userId, services, appointmentDate, timeSlot ,  paymentProofImg } = req.body;
   
       // Check if the salon exists
       const salon = await Salon.findById(salonId);
@@ -258,6 +259,7 @@ export const bookSalonService = async (req, res) => {
       const booking = new Booking({
         salon: salonId,
         user: userId,
+        salonName,
         services,
         appointmentDate,
         timeSlot,
@@ -291,16 +293,50 @@ export const bookSalonService = async (req, res) => {
       });
     }
   };
-
+ 
+  // get booking of specific salon 
+  export const getSalonBookings = async (req, res) => {
+    try {
+      const { salonId } = req.params; // url se salon id aygi
+  
+      // Check if the salon exists
+      const salon = await Salon.findById(salonId);
+      if (!salon) {
+        return res.status(404).json({
+          message: 'Salon not found',
+          success: false,
+        });
+      }
+  
+      // Get the salon's bookings
+      const bookings = await Booking.find({ salon: salonId });
+      console.log("bookings",bookings)
+  
+      res.status(200).json({
+        message: 'Salon bookings found',
+        success: true,
+        data: bookings,
+      }
+      
+      );
+    } catch (error) {
+      console.error('Error getting salon bookings:', error);
+      res.status(500).json({
+        message: 'Failed to get salon bookings',
+        success: false,
+      });
+    }
+  };
        
 
   // delete booking controller
 
-// in this user can delete his/her booking
+// in this user can delete his/her booking option controller
 export const deleteBooking = async (req, res) => {
     try {
       const { bookingId } = req.params; // booking id
-      const { userId } = req.body;  // user id
+      const {salonId} = req.params; // params se salon id aygi 
+      const { userId } = req.body;  // user id 
   
       // Check if the booking exists
       const booking = await Booking.findById(bookingId);
@@ -328,8 +364,10 @@ export const deleteBooking = async (req, res) => {
         });
       }
   
+
       // Delete the booking
-      await booking.delete();
+      await Booking.findByIdAndDelete(bookingId)
+      await booking.save()
   
       // Remove the booking from the user's appointments array
        user.appointments = user.appointments.filter(
@@ -343,7 +381,7 @@ export const deleteBooking = async (req, res) => {
         (appointment) => appointment.toString() !== bookingId
       );
       await salon.save();
-  
+
       res.status(200).json({
         message: 'Booking deleted successfully',
         success: true,
@@ -356,6 +394,121 @@ export const deleteBooking = async (req, res) => {
       });
     }
   };
+
+// update booking controller as approved 
+export const updateBookingStatus = async (req, res) => {
+  try {
+    const { bookingId } = req.body; // booking id
+     const { salonId } = req.params; // body se salon id aygi
+    //  const { userId } = req.body; // user id
+    // Check if the booking exists
+    const booking = await Booking.findById(bookingId);
+    if (!booking) {
+      return res.status(404).json({
+        message: 'Booking not found',
+        success: false,
+      });
+    }
+
+   
+     // Check if the user exists
+     const salon = await Salon.findById(salonId);
+     if (!salon) {
+       return res.status(404).json({
+         message: 'User not found',
+         success: false,
+       });
+     }
+
+     if (booking.salon.toString() !== salonId) {
+      return res.status(401).json({
+        message: 'You are not authorized to update the status of this booking',
+        success: false,
+      });
+
+    }
+      // Update the booking status to 'approved'
+     booking.status = 'approved';
+
+    // Save the updated booking
+      await booking.save();
+       
+      res.status(200).json({
+        message: 'Booking status updated to approved',
+        success: true,
+        data: booking,
+      });
+  } catch (error) {
+    console.error('Error updating booking status:', error);
+    res.status(500).json({
+      message: 'Failed to update booking status',
+      success: false,
+    });
+  }
+};
+
+// update booking controller as cancelled 
+export const updateBookingStatusCancel = async (req, res) => {
+  try {
+    const { bookingId } = req.params; // booking id
+     const { salonId } = req.params; // params se salon id aygi
+     const { userId } = req.body; // user id
+    // Check if the booking exists
+    const booking = await Booking.findById(bookingId);
+    if (!booking) {
+      return res.status(404).json({
+        message: 'Booking not found',
+        success: false,
+      });
+    }
+
+   
+     // Check if the user exists
+     const salon = await Salon.findById(salonId);
+     if (!salon) {
+       return res.status(404).json({
+         message: 'User not found',
+         success: false,
+       });
+     }
+
+     if (booking.salon.toString() !== salonId) {
+      return res.status(401).json({
+        message: 'You are not authorized to update the status of this booking',
+        success: false,
+      });
+    }
+      // Update the booking status to 'approved'
+   booking.status = 'canceled';
+
+    // Save the updated booking
+  await booking.save();
+      // Update the status in the user's appointments array
+    // const userAppointmentIndex = user.appointments.findIndex(
+    //   (appointment) => appointment._id.toString() === bookingId
+    // );
+
+    // if (userAppointmentIndex !== -1) {
+    //   user.appointments[userAppointmentIndex].status = 'approved';
+    //   await user.save();
+    // }
+
+       
+      res.status(200).json({
+        message: 'Booking status updated to approved',
+        success: true,
+        data: booking,
+      });
+  } catch (error) {
+    console.error('Error updating booking status:', error);
+    res.status(500).json({
+      message: 'Failed to update booking status',
+      success: false,
+    });
+  }
+};
+
+
 
 
   

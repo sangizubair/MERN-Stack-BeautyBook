@@ -23,7 +23,6 @@ const userRegister = () => {
   });
 
   const navigate= useNavigate();
-
   const hanldeInputChange = (e) => {
     setFormData({
       ...formData,

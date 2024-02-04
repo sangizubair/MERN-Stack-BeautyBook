@@ -8,6 +8,9 @@ const bookingSchema= new Schema ({
         ref:"Salon",
         required:true
     },
+    salonName:{
+        type:String,
+    },
 
     user:{
         // ref from User model object
@@ -27,13 +30,12 @@ const bookingSchema= new Schema ({
 
       timeSlot: { // time slot of the appointment
         type: String,
-       // required: true,
+      // required: true,
       },
 
       paymentProofImg:{ // will be uploaded by the user after the payment is done
         type:String,  // image
-        required:true
-        
+        required :true  
       },
 
       status: {  // status of the booking

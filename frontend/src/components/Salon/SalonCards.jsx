@@ -59,7 +59,7 @@ const SalonCard = () => {
       <div className="max-w-[1170px] px-5 mx-auto ">
         {loading && <p>Loading...</p>}
         {error && <p>{error}</p>}
-        <div className="grid md:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {salonsToDisplay.map((salonItem) => (
             <Link to={`/salonDetail/${salonItem._id}`} key={salonItem._id}>
               <div className="salon-card p-8">

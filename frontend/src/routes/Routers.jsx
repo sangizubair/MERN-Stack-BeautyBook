@@ -26,6 +26,7 @@ const Routers = () => {
       {/* <Route path='/login' element={<Login/>}/> */}
       <Route path='/services' element={<Services/>}/>
       <Route path='/booking/:id/service/:serviceId' element={ <ProtectedRoute allowedRoles={['user' , 'salon']} > <Booking/></ProtectedRoute> }/>
+      {/* <Route path='//dashboard/user-account/bookings/:bookingId' element={<ViewDetails/>}/> */}
       {/* <Route path='/register' element={<Register/>}/> */}
       <Route path='/login' element={<Login/>}/>
       <Route path='/salonLogin' element={<SalonLogin/>}/>

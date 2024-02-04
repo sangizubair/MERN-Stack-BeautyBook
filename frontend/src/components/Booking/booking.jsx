@@ -93,11 +93,11 @@ const booking = () => {
   const handleBooking = async () => {
     try {
          if (!serviceDetails) {
-        throw new Error('Service not found');
+         throw new Error('Service not found');
          }
          if (!paymentProof) {
              alert('Please upload payment proof');
-             return;
+             return      
          }
       const response = await fetch(`${BASE_URL}/auth/book`, {
         method: 'post',
@@ -107,6 +107,7 @@ const booking = () => {
         },
         body: JSON.stringify({
           salonId: id,
+          salonName: salonDetails.salonName,
           services: [serviceDetails],
           appointmentDate: date,
           timeSlot: time,
@@ -137,10 +138,9 @@ const booking = () => {
           <div>
             {loading && <p>Loading...</p>}
             {error && <p>{error}</p>}
-            {salonDetails && (
-              <div>
-               
-                {serviceDetails && (
+            {salonDetails  && (
+              <div>   
+                {serviceDetails && salonDetails  && (
                 <div className='service-details card p-4 border border-gray-300 rounded'>
                 <p className='font-bold'>SlaonName:{salonDetails.salonName}</p>
                 <p className='font-bold text-lg mb-2'>Service Details</p>
