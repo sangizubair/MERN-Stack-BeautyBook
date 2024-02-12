@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
+import Slider from 'react-slick';
 import { BASE_URL } from '../../../config';
 import { authContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const SalonList = () => {
   const { salon } = useContext(authContext);
@@ -44,12 +48,67 @@ const SalonList = () => {
 
   const salonsToDisplay = allSalons.filter((salonItem) => salonItem._id !== salon?._id);
 
+  // Custom responsive settings for the slider
+  const responsiveSettings = [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        infinite: true,
+        speed: 500,
+        autoplay: true,
+        autoplaySpeed: 2000,
+      },
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        infinite: true,
+        speed: 500,
+        autoplay: true,
+        autoplaySpeed: 2000,
+      },
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        infinite: true,
+        speed: 500,
+        autoplay: true,
+        autoplaySpeed: 2000,
+      },
+    },
+  ];
+  // Custom arrow components
+  const PrevArrow = (props) => {
+    const { onClick } = props;
+    return (
+      <div className="custom-arrow prev" onClick={onClick}>
+        <span>&#8592;</span>
+      </div>
+    );
+  };
+
+  const NextArrow = (props) => {
+    const { onClick } = props;
+    return (
+      <div className="custom-arrow next" onClick={onClick}>
+        <span>&#8594;</span>
+      </div>
+    );
+  };
+
   return (
     <section className="flex justify-center items-center">
-      <div className="max-w-[1170px] px-5 mx-auto">
+      <div className="max-w-[400px] px-5 ">
         {loading && <p>Loading...</p>}
         {error && <p>{error}</p>}
-        <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6">
+        <Slider dots responsive={responsiveSettings} prevArrow={<PrevArrow />} nextArrow={<NextArrow />}>
           {salonsToDisplay.map((salonItem) => (
             <div key={salonItem._id} className="instagram-card p-8">
               <Link to={`/salonDetail/${salonItem._id}`}>
@@ -61,7 +120,7 @@ const SalonList = () => {
               </Link>
             </div>
           ))}
-        </div>
+        </Slider>
       </div>
     </section>
   );

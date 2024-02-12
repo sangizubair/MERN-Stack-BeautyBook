@@ -31,7 +31,7 @@ const cards = () => {
                   <h2 className='text-[26px] leading-9 text-center text-headingColor font[700]  '>
                     Hair
                   </h2>
-                  <Link to={'/salon'} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
+                  <Link to={'/services'} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
                     <BsArrowRight className='group-hover:text-white w-6 h-5'/>
                   </Link>
 
@@ -50,7 +50,7 @@ const cards = () => {
                   </h2>
                 
                     
-                  <Link to={'/salon'} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
+                  <Link to={'/services'} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
                     <BsArrowRight className='group-hover:text-white w-6 h-5'/>
                   </Link>
                 </div>
@@ -67,7 +67,7 @@ const cards = () => {
                   <h2 className='text-[26px] leading-9 text-center text-headingColor font[700]  '>
                   Lashes & Brows
                   </h2>
-                  <Link to={'/salon'} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
+                  <Link to={'/services'} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
                     <BsArrowRight className='group-hover:text-white w-6 h-5'/>
                   </Link>
                 </div>
@@ -84,7 +84,7 @@ const cards = () => {
                   </h2>
                 
                     
-                  <Link to={'/salon'} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
+                  <Link to={'/services'} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
                     <BsArrowRight className='group-hover:text-white w-6 h-5'/>
                    </Link>
                  </div>
@@ -101,7 +101,7 @@ const cards = () => {
                   Skin
                   </h2>
                     
-                  <Link to={'/salon'} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
+                  <Link to={'/services'} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
                     <BsArrowRight className='group-hover:text-white w-6 h-5'/>
                   </Link>
 
@@ -118,7 +118,7 @@ const cards = () => {
                   <h2 className='text-[26px] leading-9 text-center text-headingColor font[700]  '>
                   Skin
                   </h2>
-                  <Link to={'/salon'} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
+                  <Link to={'/services'} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
                     <BsArrowRight className='group-hover:text-white w-6 h-5'/>
                   </Link>
                 </div>
@@ -133,7 +133,7 @@ const cards = () => {
                   <h2 className='text-[26px] leading-9 text-center text-headingColor font[700]  '>
                   Skin
                   </h2>
-                  <Link to={'/salon'} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
+                  <Link to={'/services'} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
                     <BsArrowRight className='group-hover:text-white w-6 h-5'/>
                   </Link>
 
@@ -152,7 +152,7 @@ const cards = () => {
                   </h2>
                 
                     
-                  <Link to={'/salon'} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
+                  <Link to={'/services'} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-btnColor hover:border-none'>
                     <BsArrowRight className='group-hover:text-white w-6 h-5'/>
                   </Link>
 

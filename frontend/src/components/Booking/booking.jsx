@@ -1,14 +1,14 @@
 import React from 'react'
-import Qrcode from '../../assets/images/qrcode.jpg'
+
 import { useParams } from 'react-router-dom';
 import { BASE_URL } from '../../../config';
 import { authContext } from '../../context/AuthContext';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { data } from 'autoprefixer';
 import uploadImageToCloudinary from '../../utils/uploadCloudinary.js';
-import { set } from 'mongoose';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const booking = () => {
    
@@ -19,7 +19,7 @@ const booking = () => {
   const { id , serviceId } = useParams();
   const [date, setDate] = React.useState('');
   const [time, setTime] = React.useState('');
-  const [paymentProof, setPaymentProof] = useState(null);
+  const [paymentProof, setPaymentProof] = useState('');
   const [salonDetails, setSalonDetails] = useState({});
   const [serviceDetails, setServiceDetails] = useState({});
   const [loading, setLoading] = useState(true);
@@ -119,7 +119,8 @@ const booking = () => {
       if (!response.ok) {
         throw new Error('Failed to book appointment');
       }
-
+      toast.success('Appointment booked successfully');
+      
       // Handle success - e.g., show a success message
       console.log('Appointment booked successfully');
       console.log(response.json()); 
@@ -131,6 +132,7 @@ const booking = () => {
 
   return (
     <section>
+      <ToastContainer/>
     <div className='flex justify-around'>
       <div>
         <h1 className='text-xl font-extrabold'>Book your appointment</h1>

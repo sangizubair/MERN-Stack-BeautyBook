@@ -3,7 +3,10 @@ import { BASE_URL } from '../../../config';
 import { authContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import e from 'express';
+import { useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 // this is  for salon only 
 const MyBookings = () => {
@@ -12,42 +15,75 @@ const MyBookings = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { salonId } = useParams();
   const { dispatch } = useContext(authContext)
+  const [confirmationStatus, setConfirmationStatus] = useState({
+    confirmed: false,
+    canceled: false,
+  });
+   // states to calculate the number of bookings cancelled and confirmed
+  const [confirmedCount, setConfirmedCount] = useState(0);
+  const [canceledCount, setCanceledCount] = useState(0);
+  const [pendingBookings, setPendingBookings] = useState(0);
 
+  // this is handleConfirmBooking approved
   const handleConfirmBooking = async (bookingId) => {
     try {
-      const response = await fetch(`${BASE_URL}/updatebooking/${salon._id}`, {
+      const response = await fetch(`${BASE_URL}/auth/updatebooking/${salon._id}`, {
         method: 'PUT',
         headers: {
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Include the authorization header if needed
         },
         body: JSON.stringify({
-          bookingId: bookingId, // Send salonId or userId, whichever is appropriate
+          bookingId: bookingId,
         }),
       });
-
+  
       if (!response.ok) {
+        console.log(response); // Log the entire response for debugging
         throw new Error('Failed to confirm booking');
       }
-      else {
-        console.log(response)
-      }
-
-
-      // Update the local state to reflect the changes
-      // setUserProfile((prevProfile) => {
-      //   const updatedBookings = prevProfile.map((booking) =>
-      //     booking._id === bookingId ? { ...booking, status: 'approved' } : booking
-      //   );
-      //   return updatedBookings;
-      // });
+     // const updatedBooking = await response.json();
+     // console.log('Updated Booking:', updatedBooking);
+      setConfirmationStatus({ confirmed: true, canceled: false });
+      toast.success('Booking confirmed successfully');
+      // Optionally, you can update the local state or perform any other actions
     } catch (error) {
       console.error('Error confirming booking:', error.message);
-      setError('Failed to confirm booking.');
     }
+   
   };
 
+
+  // this is handleConfirmBookingCancel
+  const handleConfirmBookingCancel = async (bookingId) => {
+    try {
+      const response = await fetch(`${BASE_URL}/auth/updatebookingcancel/${salon._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Include the authorization header if needed
+        },
+        body: JSON.stringify({
+          bookingId: bookingId,
+        }),
+      });
+  
+      if (!response.ok) {
+       // console.log(response); // Log the entire response for debugging
+        throw new Error('Failed to confirm booking');
+      }
+     // const updatedBooking = await response.json();
+     // console.log('Updated Booking:', updatedBooking);
+      setConfirmationStatus({ confirmed: false, canceled: true });
+      
+      toast.success('Booking cancelled successfully');
+      // Optionally, you can update the local state or perform any other actions
+    } catch (error) {
+      console.error('Error confirming booking:', error.message);
+    }
+  };
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -68,6 +104,16 @@ const MyBookings = () => {
         const userData = await response.json();
         setUserProfile(userData.data);
         setLoading(false);
+
+        // Calculate the number of bookings that are confirmed and canceled
+        const confirmedBookings = userData.data.filter((booking) => booking.status === 'approved');
+        const canceledBookings = userData.data.filter((booking) => booking.status === 'cancelled');
+        const pendingBookings = userData.data.filter((booking) => booking.status === 'pending');
+
+        setConfirmedCount(confirmedBookings.length);
+        setCanceledCount(canceledBookings.length);
+        setPendingBookings(pendingBookings.length);
+        
       } catch (error) {
         console.error('Error fetching user profile:', error.message);
         setError('Something went wrong while fetching user profile.');
@@ -81,79 +127,91 @@ const MyBookings = () => {
   }, [token, salon]); // 
   return (
     <div>
-
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      {userProfile && (
+    <ToastContainer />
+    {loading && <p>Loading...</p>}
+    {error && <p>{error}</p>}
+    {userProfile && (
+      <div>
+        <div className='flex justify-between items-center'>
+          <h1 className='text-3xl font-bold mb-2'>My Bookings</h1>
+          <button className='bg-btnColor text-white px-4 py-2 rounded-md text-sm font-medium'>
+            <Link to='/dashboard/user-account/bookings'>View All</Link>
+          </button>
+        </div>
+        <div className='flex justify-between items-center'>
+          <div className='flex flex-col items-center justify-center'>
+            <h1 className='text-3xl font-bold mb-2'>{pendingBookings}</h1>
+            <p className='text-sm font-medium'>Upcoming</p>
+          </div>
+          <div className='flex flex-col items-center justify-center'>
+            <h1 className='text-3xl font-bold mb-2'>{confirmedCount}</h1>
+            <p className='text-sm font-medium'>Confirmed</p>
+          </div>
+          <div className='flex flex-col items-center justify-center'>
+            <h1 className='text-3xl font-bold mb-2'>{canceledCount}</h1>
+            <p className='text-sm font-medium'>Cancelled</p>
+          </div>
+        </div>
         <div>
-          <div className='flex justify-between items-center'>
-            <h1 className='text-3xl font-bold mb-2'>My Bookings</h1>
-            <button className='bg-btnColor text-white px-4 py-2 rounded-md text-sm font-medium'>
-              <Link to='/dashboard/user-account/bookings'>View All</Link>
-            </button>
-          </div>
-          <div className='flex justify-between items-center'>
-            <div className='flex flex-col items-center justify-center'>
-              <h1 className='text-3xl font-bold mb-2'>0</h1>
-              <p className='text-sm font-medium'>Upcoming</p>
-            </div>
-            <div className='flex flex-col items-center justify-center'>
-              <h1 className='text-3xl font-bold mb-2'>0</h1>
-              <p className='text-sm font-medium'>Past</p>
-            </div>
-            <div className='flex flex-col items-center justify-center'>
-              <h1 className='text-3xl font-bold mb-2'>0</h1>
-              <p className='text-sm font-medium'>Cancelled</p>
-            </div>
-          </div>
-          <div >
-
-            {userProfile.map((booking) => (
-              <div key={booking._id} className='bg-white p-4 rounded-md shadow-xl mt-4'>
-                <div className='flex justify-between items-center'>
-                  <div className='flex gap-4'>
-                    {/* <div className='w-[100px] h-[100px] rounded-full border-2 border-solid'>
-                    <img src={booking.salonId.photo} alt='' className='w-full h-full' />
-                  </div> */}
-                    {/* <div>
-                    <h1 className='text-xl font-bold'>{booking.salonId.salonName}</h1>
-                    <p className='text-sm font-medium'>{booking.salonId.address}</p>
-                  </div> */}
-                  </div>
-                  <div className='mt-4 space-x-4'>
-                    <button className='bg-btnColor text-white px-4 py-2 rounded-md text-sm font-medium'>
-
-                      delete
-                    </button>
-                    <button onClick={() => handleConfirmBooking(booking._id)} className='bg-btnColor text-white px-4 py-2 rounded-md text-sm font-medium'>
-                      Confirm
-                    </button>
-                  </div>
+          {userProfile.map((booking) => (
+            <div key={booking._id} className='bg-white p-4 rounded-md shadow-xl mt-4'>
+              <div className='flex justify-between items-center'>
+                <div className='flex gap-4'>
+                 
                 </div>
-                <h3 className='text-lg font-bold'>Booking ID: {booking._id}</h3>
-                <ul>
-                  {booking.services && Array.isArray(booking.services) && booking.services.map((service) => (
+                <div className='mt-4 space-x-4'>
+                  {confirmationStatus.canceled && (
+                    <p className='text-red-500'>Booking Cancelled</p>
+                  )}
+                  {confirmationStatus.confirmed && (
+                    <p className='text-green-500'>Booking Approved</p>
+                  )}
+                  <button
+                    onClick={() => {
+                      console.log('Cancel button clicked'); // Debugging
+                      handleConfirmBookingCancel(booking._id);
+                    }}
+                    className='bg-btnColor text-white px-4 py-2 rounded-md text-sm font-medium'
+                    disabled={confirmationStatus.canceled}
+                  >
+                    delete
+                  </button>
+                  <button
+                    onClick={() => {
+                      console.log('Confirm button clicked'); // Debugging
+                      handleConfirmBooking(booking._id);
+                    }}
+                    className='bg-btnColor text-white px-4 py-2 rounded-md text-sm font-medium'
+                    disabled={confirmationStatus.confirmed}
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </div>
+              <h3 className='text-lg font-bold'>Booking ID: {booking._id}</h3>
+              <ul>
+                {booking.services &&
+                  Array.isArray(booking.services) &&
+                  booking.services.map((service) => (
                     <li key={service._id}>
                       <p className='text-sm font-medium'>Service Name:{service.name}</p>
                       <p>Service Price:{service.price}</p>
-
                       {/* ... (display other service details as needed) */}
                     </li>
                   ))}
-                  <li>
-                    <p>Booking date:{booking.appointmentDate}</p>
-                    <p>Booking Time{booking.timeSlot}</p>
-                  </li>
-                </ul>
-                <p>Status: {booking.status}</p>
-                {/* Add other booking details here */}
-              </div>
-            ))}
-          </div>
+                <li>
+                  <p>Booking date:{booking.appointmentDate}</p>
+                  <p>Booking Time{booking.timeSlot}</p>
+                </li>
+              </ul>
+              <p>Status: {booking.status}</p>
+              {/* Add other booking details here */}
+            </div>
+          ))}
         </div>
-      )}
-
-    </div>
+      </div>
+    )}
+  </div>
   )
 }
 

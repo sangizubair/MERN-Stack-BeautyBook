@@ -8,7 +8,7 @@ import { IoArrowBack } from "react-icons/io5";
 
 
 function Carousel() {
-  
+
   const slides = [
     {
       url: 'https://images.unsplash.com/photo-1552693673-1bf958298935?q=80&w=1473&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -31,7 +31,7 @@ function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showPopup, setShowPopup] = useState(false);
   const [searchInput, setSearchInput] = useState('');
-  
+
 
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;
@@ -59,24 +59,24 @@ function Carousel() {
   };
   return (
     <div className='max-w-[1400px] h-[780px] w-full m-auto py-0  relative group'>
-       {/* Search bar positioned on top of the carousel */}
-       <div className='absolute text-white top-0 left-0 right-0 z-10 mx-auto my-24 text-center  '>
+      {/* Search bar positioned on top of the carousel */}
+      <div className='absolute text-white top-0 left-0 right-0 z-10 mx-auto my-24 text-center  '>
         <h1 className='text-5xl font-bold'>
-        New stylist. New life. New you.
+          New stylist. New life. New you.
         </h1>
         <h1 className='p-5 text-base font-semibold'>
-         Discover and book beauty professionals near you
+          Discover and book beauty professionals near you
         </h1>
-       </div>
-  <div className='absolute top-0 left-0 right-0 z-10 mx-auto my-60 text-center  sm:w-3/8 md:w-3/6 lg:w-2/6 xl:w-2/4 '>
-    <div className='relative'>
-    <FaSearchLocation   className="absolute top-1/2 transform -translate-y-1/2 left-2 text-gray-500  "/>
-    <FaLocationArrow className="absolute top-1/2 transform -translate-y-1/2 right-2 text-gray-500"  />
-    <input type="text" placeholder="Search services..." value={searchInput}
-    onChange={handleSearchInputChange}  className={`w-full sm:w-4/7 bg-white text-black rounded-md px-6 py-2 outline-none ${showPopup  }`} />
-   {showPopup && (
+      </div>
+      <div className='absolute top-0 left-0 right-0 z-10 mx-auto my-60 text-center  sm:w-3/8 md:w-3/6 lg:w-2/6 xl:w-2/4 '>
+        <div className='relative'>
+          <FaSearchLocation className="absolute top-1/2 transform -translate-y-1/2 left-2 text-gray-500  " />
+          <FaLocationArrow className="absolute top-1/2 transform -translate-y-1/2 right-2 text-gray-500" />
+          <input type="text" placeholder="Search services..." value={searchInput}
+            onChange={handleSearchInputChange} className={`w-full sm:w-4/7 bg-white text-black rounded-md px-6 py-2 outline-none ${showPopup}`} />
+          {showPopup && (
             <div className='absolute text-center top-0 left-0 right-0 z-10 mx-auto my-52 transform -translate-y-1/2 bg-white rounded-md p-4 sm:w-[40%]  md:w-[70%] lg:w-[80%] xl:w-[100%]'>
-              <div onClick={closePopup} className='text-black'><IoArrowBack/></div>
+              <div onClick={closePopup} className='text-black'><IoArrowBack /></div>
               {/* Your dynamic content based on the search input goes here */}
               <h2 >What are you looking for</h2>
               <hr className='bg-black w-full' />
@@ -99,17 +99,17 @@ function Carousel() {
               {/* Add your logic to fetch and display related services */}
             </div>
           )}
-       <span className='absolute -mx-60 top-1/2 transform -translate-y-1/2 '>
-        <input type="text" placeholder='Where?' className='w-full sm:w-4/6 outline-none px-4 py-2' />
-       </span>
-    </div>
-  </div>
+          <span className='absolute -mx-60 top-1/2 transform -translate-y-1/2 '>
+            <input type="text" placeholder='Where?' className='w-full sm:w-4/6 outline-none px-4 py-2' />
+          </span>
+        </div>
+      </div>
       <div
         style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
         className='w-full h-full  bg-center bg-cover duration-500'
       ></div>
-       {/* Search bar inside the carousel */}
-       
+      {/* Search bar inside the carousel */}
+
       {/* Left Arrow */}
       <div className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
         <BsChevronCompactLeft onClick={prevSlide} size={30} />
