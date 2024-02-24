@@ -17,9 +17,7 @@ const Teams = () => {
               <h2 className="text-xl font-bold mb-2">Shafique Ahmed</h2>
               <p className="text-gray-700">Founder</p>
             </div>
-            <a href="https://www.linkedin.com/in/shafique-ahmed" target="_blank" rel="noopener noreferrer">
-              <FaLinkedin className="text-blue-600 w-6 h-6" />
-            </a>
+            
           </div>
         </div>
 
@@ -31,9 +29,7 @@ const Teams = () => {
               <h2 className="text-xl font-bold mb-2">Amna Soomro</h2>
               <p className="text-gray-700">Co-founder</p>
             </div>
-            <a href="https://www.linkedin.com/in/amna-soomro" target="_blank" rel="noopener noreferrer">
-              <FaLinkedin className="text-blue-600 w-6 h-6" />
-            </a>
+           
           </div>
         </div>
 
@@ -45,9 +41,7 @@ const Teams = () => {
               <h2 className="text-xl font-bold mb-2">M. Usama Qureshi</h2>
               <p className="text-gray-700">MERN stack developer</p>
             </div>
-            <a href="https://www.linkedin.com/in/usama-qureshi" target="_blank" rel="noopener noreferrer">
-              <FaLinkedin className="text-blue-600 w-6 h-6" />
-            </a>
+           
           </div>
         </div>
       </div>
