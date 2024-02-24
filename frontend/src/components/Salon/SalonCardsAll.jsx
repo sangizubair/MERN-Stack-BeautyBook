@@ -4,6 +4,7 @@ import { authContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import SalonCard from './SalonCards';
 import { Link } from 'react-router-dom';
+import Rating from '../Rating/rating';
 
 const SalonCardsAll = () => {
   const [allSalons, setAllSalons] = useState([]);
@@ -49,7 +50,7 @@ const SalonCardsAll = () => {
 
       const query = searchQuery.trim().toLowerCase();
       const filteredSalons = allSalons.filter((salonItem) =>
-        salonItem.ownerName.toLowerCase().includes(query)
+        salonItem.salonName.toLowerCase().includes(query)
       );
       setFilteredSalons(filteredSalons);
     } catch (error) {
@@ -58,7 +59,11 @@ const SalonCardsAll = () => {
       setSearchLoading(false);
     }
   };
-
+     // Function to truncate address to 4 to 5 words
+  const truncateAddress = (address) => {
+    const words = address.split(' ');
+    return words.slice(0, 10).join(' ');
+  };
   return (
     <section className="flex justify-center items-center">
       <div className="max-w-[1170px] px-5 mx-auto ">
@@ -87,11 +92,16 @@ const SalonCardsAll = () => {
           {(searchQuery ? filteredSalons : allSalons).map((salonItem) => (
             <Link to={`/salonDetail/${salonItem._id}`} key={salonItem._id}>
               <div className="salon-card p-8">
-                <figure className="w-[100px] h-[100px] rounded-full border-2 border-solid mb-4">
-                  <img src={salonItem.photo} alt="" className="w-full h-full" />
+                <figure className="w-[200px] h-[200px] rounded-full border-2 border-solid mb-4">
+                  <img src={salonItem.photo} alt="" className="w-full h-full object-cover rounded" />
                 </figure>
-                <h3 className="text-lg font-semibold">{salonItem.ownerName}</h3>
-                <p className="text-gray-500">{salonItem.address}</p>
+                <h3 className="text-lg font-semibold">{salonItem.salonName}</h3>
+                {/* Display rating component */}
+                <div className="flex items-center">
+                  <Rating value={5} /> {/* Hardcoded value for demonstration, replace with actual rating */}
+                  <p className="text-gray-500 ml-2">5.0 rating</p>
+                </div>
+                <p className="text-gray-500">{truncateAddress(salonItem.address)}</p>
                 {/* ... (other salon details) */}
               </div>
             </Link>

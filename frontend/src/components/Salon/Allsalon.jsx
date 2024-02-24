@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import { BASE_URL } from '../../../config';
 import { Link } from 'react-router-dom';
-import SalonProfile from '../../assets/images/salonProfile.png'
+import SalonProfile from '../../assets/images/salonProfile.png';
+import Rating from '../Rating/rating';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -42,14 +43,14 @@ const Allsalon = () => {
   // Custom responsive settings
   const responsiveSettings = [
     {
-      breakpoint: 1024,
+      breakpoint: 1920,
       settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToShow:3 ,
+        slidesToScroll: 2 ,
         infinite: true,
-        speed: 5000,
+        speed: 500,
         autoplay: true,
-        autoplaySpeed:5000
+        autoplaySpeed: 3000,
       },
     },
     {
@@ -58,10 +59,9 @@ const Allsalon = () => {
         slidesToShow: 2,
         slidesToScroll: 2,
         infinite: true,
-        speed: 5000,
+        speed: 500,
         autoplay: true,
-        autoplaySpeed:5000
-
+        autoplaySpeed: 3000,
       },
     },
     {
@@ -70,9 +70,11 @@ const Allsalon = () => {
         slidesToShow: 1,
         slidesToScroll: 1,
         infinite: true,
-        speed: 5000,
+        speed: 500,
         autoplay: true,
-        autoplaySpeed:5000
+         // Adjusting width for mobile devices
+         variableWidth: true,
+        autoplaySpeed: 3000,
       },
     },
   ];
@@ -96,28 +98,44 @@ const Allsalon = () => {
     );
   };
 
+  // Function to truncate address to 4 to 5 words
+  const truncateAddress = (address) => {
+    const words = address.split(' ');
+    return words.slice(0, 10).join(' ');
+  };
+
   return (
     <section className="flex justify-center items-center">
-      <div className="max-w-[400px] px-5  ">
+      <div className="lg:w-[1000px] md:w-[600px] w-[350px] px-5">
         {loading && <p>Loading...</p>}
         {error && <p>{error}</p>}
         {allSalons.length > 0 && (
-          <div >
+          <div>
             <h2 className="text-xl font-semibold mb-4">Our Recommended Salons</h2>
-            <Slider dots   autoplaySpeed={2000}
-            
-            responsive={responsiveSettings} prevArrow={<PrevArrow />} nextArrow={<NextArrow />}>
+            <Slider
+              dots
+              autoplaySpeed={3000}
+              responsive={responsiveSettings}
+              prevArrow={<PrevArrow />}
+              nextArrow={<NextArrow />}
+            >
               {allSalons.map((salonItem) => (
-                <Link to={`/salonDetail/${salonItem._id}`} key={salonItem._id}>
-                  <div className=" p-8 border border-gray-300 rounded mb-4">
+                <div key={salonItem._id}>
+                  <div className="p-4 border border-gray-300 rounded mb-4 w-[300px] ">
                     {/* Display salon details here */}
-                    <figure className='w-[150px] h-[150px] rounded-full border-2 border-solid mb-4'>
-                      <img src={salonItem.photo} alt={''} className='w-full h-full' />
+                    <Link to={`/salonDetail/${salonItem._id}`}>
+                    <figure className="w-full h-[200px] mb-4">
+                      <img src={salonItem.photo} alt={''} className="w-full h-full object-cover rounded" />
                     </figure>
-                    <h3 className="text-lg font-semibold">{salonItem.ownerName}</h3>
-                    <p className="text-gray-500">{salonItem.address}</p>
+                    <h3 className="text-lg font-semibold">{salonItem.salonName}</h3>
+                    <div className="flex items-center">
+                      <Rating value={5} /> {/* Hardcoded value for demonstration, replace with actual rating */}
+                      <p className="text-gray-500 ml-2">5.0 rating</p>
+                    </div>
+                    <p className="text-gray-500">{truncateAddress(salonItem.address)}</p>
+                    </Link>
                   </div>
-                </Link>
+                </div>
               ))}
             </Slider>
           </div>

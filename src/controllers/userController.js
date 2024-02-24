@@ -81,7 +81,7 @@ export const getAllleUser = async(req,res)=>{
     }
 }
 
- // get userprofile controller
+
   
 export const getUserProfile = async(req,res)=>{
       

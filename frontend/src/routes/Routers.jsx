@@ -15,13 +15,27 @@ import SalonAccount from '../Dashboard/salon-account/SalonAccount.jsx';
 import {Routes,Route} from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute.jsx';
 import Booking from '../components/Booking/booking.jsx';
+import Aboutus from '../pages/AboutUs/aboutus.jsx';
+import Contactus from '../pages/ContactUs/contactus.jsx';
+import Privacypolicy from '../pages/PrivacyPolicy/privacypolicy.jsx';
+import Faq from '../pages/Faqs/faq.jsx';
+import Blog from '../pages/Blog/blog.jsx';
+import TermService from '../pages/TermsService/termservices.jsx';
+import Teams from '../pages/Team/teams.jsx';
 
 const Routers = () => {
   return (  
      // Routes and Route
      <Routes>
       <Route path='/' element={<Home/>}/>
+      <Route path='/aboutus' element={<Aboutus/>}/>
+      <Route path='/contactus' element={<Contactus/>}/>
+      <Route path='/privacypolicy' element={<Privacypolicy/>}/>
+      <Route path='/termservices' element={<TermService/>}/>
+      <Route path='/faq' element={<Faq/>}/>
       <Route path='/salon' element={<Salon/>}/>
+      <Route path='/teams' element={<Teams/>}/>
+      <Route path='/blog' element={<Blog/>}/>
       <Route path='/salonDetail/:id' element={<SalonDetail/>}/>
       {/* <Route path='/login' element={<Login/>}/> */}
       <Route path='/services' element={<Services/>}/>

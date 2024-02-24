@@ -83,3 +83,54 @@ body{
   padding: 8px;
 } */
 
+/* publications.css */
+.publication-card {
+    border: 1px solid #e0e0e0; /* Add border */
+    border-radius: 8px; /* Add border radius for rounded corners */
+    margin: 10px; /* Add margin for spacing between cards */
+    padding: 15px; /* Add padding inside the cards */
+  }
+  
+  .publication-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px; /* Add border radius for rounded corners */
+  }
+  
+  .publication-details {
+    margin-top: 10px; /* Add margin between image and details */
+  }
+  
+  .publication-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px; /* Add margin below title */
+  }
+  
+  .publication-date {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 5px; /* Add margin below date */
+  }
+  
+  .publication-link {
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+    display: block;
+  }
+
+  /* Add hover color for links */
+.header .menu .active {
+  color: #ff69b4; /* Pink color */
+}
+
+/* Active link styles */
+.header .menu .active {
+  color: #ff69b4; /* Pink color */
+  font-weight: bold;
+  /* Add any other styles for active links */
+}
+
+  
+

@@ -1,9 +1,4 @@
-// step 1 create user model
 
-// userName // req
-// email // unique , req
-// password encryptetd // req
-// avatar optional
 import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
     name: {

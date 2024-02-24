@@ -9,7 +9,7 @@ import { toast }  from 'react-toastify';
 import HashLoader from 'react-spinners/HashLoader'
 import { authContext } from '../../context/AuthContext';
 import { useContext } from 'react';
-
+import { FaCamera } from 'react-icons/fa';
 
 const Profile = ({userData}) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -46,7 +46,7 @@ const Profile = ({userData}) => {
 
     // upliad image into cloudinary
     const data= await uploadImageToCloudinary(file) 
-    console.log(data);
+   
     // setPreviewUrl(data.url);
     setSelectedFile(data.url);
     setFormData({...formData,photo:data.url});
@@ -96,11 +96,12 @@ const Profile = ({userData}) => {
             onSubmit={handleSubmit}
             className='flex flex-col items-center'
           >
-            <div className='flex flex-col sm:flex-row gap-3 items-center mb-5'>
-         { formData.photo && <figure className='w-[60px] h-[60px] rounded-full border-2 border-solid border-white flex items-center justify-center'>
+        <div className='flex flex-col sm:flex-row gap-3 items-center mb-5 '>
+         {formData.photo && 
+         <figure className='w-[70px] h-[70px] rounded-full border-2 border-solid border-white flex items-center justify-center'>
             <img
               src={formData.photo }
-              className='w-full rounded-full'
+              className='w-[70px] h-[70px] rounded-full'
               alt=''
             />
           </figure>}
@@ -115,10 +116,10 @@ const Profile = ({userData}) => {
                 />
                 <label
                   htmlFor='customFile'
-                  className='absolute top-0 left-0 w-full h-full flex items-center px-2 text-sm leading-4 overflow-visible bg-slate-100 text-headingColor font-semibold rounded-lg truncate cursor-pointer z-0'
+                  className='absolute top-0 left-0 w-[150px] h-full flex items-center px-2 text-sm leading-4 overflow-visible bg-slate-100 text-headingColor font-semibold rounded-lg truncate cursor-pointer z-0'
 
                 >
-                 {selectedFile ? selectedFile.name : 'Upload Photo'}
+                  {selectedFile ? selectedFile.name : <><FaCamera className='mr-2' style={{ width: '30px', height: '30px' }} />profile photo</>}
                 </label>
               </div>
 
@@ -141,29 +142,9 @@ const Profile = ({userData}) => {
               placeholder='Enter your email'
                readOnly
             />
-            {/* <input
-              type='password'
-              value={formData.password}
-              name='password'
-              onChange={hanldeInputChange}
-              className='border border-gray-300 p-2 mb-4 w-full sm:w-[300px] lg:w-[400px] rounded-lg'
-              placeholder='Enter your password'
-              // make it  rerad only
-              readOnly
-            /> */}
+          
             <div className='flex gap-2 mb-5 items-center justify-between'>
-              {/* <label className='text-white font-semibold text-[15px] leading-7'>
-                Are you a:
-                <select
-                  name='role'
-                  value={formData.role}
-                  onChange={hanldeInputChange}
-                  className='text-textColor leading-7 px-4 py-3 focus:outline-none'
-                >
-                  <option value='user'>User</option>
-                  <option value='salonOwner'>SalonOwner</option>
-                </select>
-              </label> */}
+             
               <label className='text-white font-semibold text-[15px] leading-7'>
                 Gender:
                 <select

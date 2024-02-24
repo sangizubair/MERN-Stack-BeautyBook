@@ -4,10 +4,6 @@ import { BASE_URL } from '../../../config';
 import { authContext } from '../../context/AuthContext';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import SidePanel from './SidePanel';
-// import useLocation
-
-
 
 const SalonDetails = () => {
   const { token, salon } = useContext(authContext);
@@ -15,6 +11,8 @@ const SalonDetails = () => {
   const [salonDetails, setSalonDetails] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showAllServices, setShowAllServices] = useState(false);
+  const [showAllImages, setShowAllImages] = useState(false);
 
   useEffect(() => {
     const fetchSalonDetails = async () => {
@@ -24,7 +22,6 @@ const SalonDetails = () => {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
-
           },
         });
 
@@ -42,111 +39,130 @@ const SalonDetails = () => {
       }
     };
 
-
     fetchSalonDetails();
   }, [id]);
 
-  return (
+  const toggleShowAllServices = () => {
+    setShowAllServices(!showAllServices);
+  };
 
-    <div className='flex justify-center items-center'>
+  const toggleShowAllImages = () => {
+    setShowAllImages(!showAllImages);
+  };
+
+  return (
+    <div className="flex flex-col items-center">
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
       {salonDetails && (
-        <div className='w-full max-w-[1170px] flex justify-center items-center'>
-          <section className="w-3/4 mr-10">
-            <figure className="w-[500px] h-[300px] border-2 border-solid mb-4">
-              <img src={salonDetails.photo} alt={''} className="w-full h-full" />
+        <div className="w-full max-w-[1170px] flex flex-col lg:flex-row justify-center items-start lg:items-center lg:space-x-10 p-4 lg:p-0">
+          {/* Salon Information (Left Side) */}
+          <div className="w-full lg:w-1/2 mb-10 lg:mb-0">
+            {/* Salon Photo */}
+            <figure className="w-full h-[300px] lg:h-auto lg:max-w-[400px] border-2 border-solid mb-4">
+              <img src={salonDetails.photo} alt="" className="w-full h-full object-cover" />
             </figure>
+            {/* Salon Name */}
             <h1 className="text-3xl font-bold mb-2">{salonDetails.salonName || 'Beauty Salon'}</h1>
+            {/* Salon Address */}
+            <p>{salonDetails.address || 'Address'}</p>
+          </div>
+          {/* About Section (Right Side) */}
+          <div className="w-full lg:w-1/2">
+            <div className="mb-4">
+              <h2 className="text-xl font-semibold mb-2">About Us</h2>
+              <p className="text-sm leading-7">{salonDetails.bio || 'Beauty salon'}</p>
+              <p className='text-sm leading-7'> <strong>Contact</strong>: {salonDetails.phone}</p>
+              <p className='text-sm leading-7'> <strong>Email</strong>: {salonDetails.email }</p>
 
-            {/* <h2>{salonDetails.ownerName}</h2> */}
-            <p>
-              {salonDetails.address || 'Address'}
-            </p>
-            {/* Display other details as needed */}
-            {/* ... (other salon details) */}
-            <div className='mt-10'>
-              <h2 className="text-xl font-semibold mb-2">Service</h2>
-              <table className="w-full border-collapse">
-                <tbody>
-                  {salonDetails.services && salonDetails.services.map(service => (
-                    <React.Fragment key={service.id}>
-                      <tr>
-                        <td className="border-b border-solid px-4 py-2 ">
-                          <span className="font-extrabold">{service.name}</span>
-                          <div className='mt-1'>
-                            <p >
-                              {service.serviceDescription}
-                            </p>
-                          </div>
-                        </td>
-                        <td className="border-b border-solid px-4 py-2 text-sm">{service.price}</td>
-                        <td className="border-b border-solid px-4 py-2 text-sm">
-                          <Link to={`/booking/${id}/service/${service._id}`}>
-                            <button className="bg-btnColor text-white px-2 py-1 mt-2">Book</button>
-                          </Link>
-                        </td>
-                      </tr>
-                    </React.Fragment>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section className="w-1/4 bg-white p-4 ">
-            <div className='shadow-panelShadow p-3  lg:p-5 rounded-md'>
-              <div className=' flex flex-col items-start'>
-                <p className='text__para mt-0  font-semibold text-headingColor '>
-                  ABOUT US
-                </p>
-                <p className='text-[16px] text__para leading-7  mt-4 text-textColor'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, molestias?</p>
-              </div>
-              <hr />
-              <div className='mt-[30px]'>
-                <p className='text__para mt-0  font-semibold text-headingColor '>
-                  CONTACT & BUSINESS HOURS
-                </p>
-
-                <div className='flex justify-stretch gap-2 mt-4 items-center'>
-                  <p className=' text__para mt-0 text-headingColor'>
-
-                  </p><span className='text-textColor'>923144684607</span>
-                </div>
-              </div>
-              <hr />
-
-              <div className='mt-[30px]'>
-                <p className='text__para mt-0 font-semibold text-headingColor'>
-                  Availble Time Slots
-                </p>
-                <table className="w-full border-collapse">
-          <thead>
-            <tr>
-              <th className="border-b border-solid px-4 py-2">Day</th>
-              <th className="border-b border-solid px-4 py-2">Working Hours</th>
+              {/* Working Hours */}
+             {/* Working Hours */}
+<div className="mt-4">
+  <h2 className="text-xl font-semibold mb-2">Working Hours</h2>
+  <table className="w-full border-collapse">
+    <tbody>
+      {salonDetails.workingHours &&
+        salonDetails.workingHours.map((hours, index) => {
+          const startHour = parseInt(hours.startTime.split(':')[0]);
+          const endHour = parseInt(hours.endTime.split(':')[0]);
+          const startMin = hours.startTime.split(':')[1];
+          const endMin = hours.endTime.split(':')[1];
+          const startPeriod = startHour >= 12 ? 'PM' : 'AM';
+          const endPeriod = endHour >= 12 ? 'PM' : 'AM';
+          const formattedStartTime =
+            startHour > 12 ? `${startHour - 12}:${startMin} ${startPeriod}` : `${startHour}:${startMin} ${startPeriod}`;
+          const formattedEndTime =
+            endHour > 12 ? `${endHour - 12}:${endMin} ${endPeriod}` : `${endHour}:${endMin} ${endPeriod}`;
+          return (
+            <tr key={index}>
+              <td className="border-b border-solid px-4 py-2">{hours.day}</td>
+              <td className="border-b border-solid px-4 py-2">
+                {hours.dayOnOff ? `${formattedStartTime} - ${formattedEndTime}` : 'Closed'}
+              </td>
             </tr>
-          </thead>
+          );
+        })}
+    </tbody>
+  </table>
+</div>
+
+
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Services Section */}
+      <div className="w-full max-w-[1170px] mt-10">
+        <h2 className="text-xl font-semibold mb-2">Services</h2>
+        <table className="w-full border-collapse mb-4">
           <tbody>
-            {salonDetails.workingHours && salonDetails.workingHours.map((hours, index) => (
-              <tr key={index}>
-                <td className="border-b border-solid px-4 py-2">{hours.day}</td>
-                <td className="border-b border-solid px-4 py-2">
-                  
-                  {hours.dayOnOff ? `${hours.startTime} - ${hours.endTime}` : 'Closed'}
-                </td>
-              </tr>
-            ))}
+            {salonDetails.services &&
+              (showAllServices ? salonDetails.services : salonDetails.services.slice(0, 10)).map((service) => (
+                <tr key={service.id}>
+                  <td className="border-b border-solid px-4 py-2">
+                    <span className="font-extrabold">{service.name}</span>
+                    <div className="mt-1">
+                      <p>{service.serviceDescription}</p>
+                    </div>
+                  </td>
+                  <td className="border-b border-solid px-4 py-2 text-sm">RS {service.price}</td>
+                  <td className="border-b border-solid px-4 py-2 text-sm">
+                    <Link to={`/booking/${id}/service/${service._id}`}>
+                      <button className="bg-btnColor text-white px-2 py-1 mt-2">Book</button>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
+        {salonDetails.services && salonDetails.services.length > 10 && (
+          <button onClick={toggleShowAllServices} className="text-btnColor font-semibold mt-2 focus:outline-none">
+            {showAllServices ? 'Show less' : 'See more'}
+          </button>
+        )}
+      </div>
+      {/* Cover Images */}
+      <div className="w-full max-w-[1170px] mt-10">
+        <h2 className="text-xl font-semibold mb-2">Our works</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {salonDetails.coverImage &&
+            (showAllImages ? salonDetails.coverImage : salonDetails.coverImage.slice(0, 3)).map((image, index) => (
+              <div key={index} className="w-full overflow-hidden rounded-md">
+                <img
+                  src={image}
+                  alt={`Cover ${index}`}
+                  className="w-full h-64 object-cover"
+                  style={{ maxHeight: '300px' }} // Set max height to control the height of images
+                />
               </div>
-            </div>
-          </section>
-
-
+            ))}
         </div>
-
-      )}
+        {salonDetails.coverImage && salonDetails.coverImage.length > 3 && (
+          <button onClick={toggleShowAllImages} className="text-btnColor font-semibold mt-2 focus:outline-none">
+            {showAllImages ? 'Show less' : 'Show more'}
+          </button>
+        )}
+      </div>
     </div>
   );
 };

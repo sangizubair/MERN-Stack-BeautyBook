@@ -1,709 +1,3 @@
-// import React, { useState } from 'react';
-
-// const SalonRegister = () => {
-//   const [formData, setFormData] = useState({
-//     ownerName: '',
-//     salonName: '',
-//     email: '',
-//     password: '',
-//     gender: 'male',
-//     phone: '',
-//     photo: '',
-//     experience: '',
-//     bio: '',
-//     location: '',
-//     address: '',
-//     services: [
-//       {
-//         name: '',
-//         price: 0,
-//         timeSlots: [{ day: '', startTime: '', endTime: '' }],
-//       },
-//     ],
-//   });
-
-//   const [submittedData, setSubmittedData] = useState([]);
-//   const [showTable, setShowTable] = useState(true);
-//   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
-
-//   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-//   const handleServiceChange = (field, value) => {
-//     setFormData((prevData) => ({
-//       ...prevData,
-//       services: [
-//         {
-//           ...prevData.services[0],
-//           [field]: value,
-//         },
-//       ],
-//     }));
-//   };
-
-//   const handleTimeSlotChange = (timeSlotIndex, field, value) => {
-//     setFormData((prevData) => {
-//       const timeSlots = [...prevData.services[0].timeSlots];
-//       timeSlots[timeSlotIndex][field] = value;
-//       return {
-//         ...prevData,
-//         services: [
-//           {
-//             ...prevData.services[0],
-//             timeSlots,
-//           },
-//         ],
-//       };
-//     });
-//   };
-
-//   const addTimeSlot = () => {
-//     setFormData((prevData) => {
-//       const timeSlots = [...prevData.services[0].timeSlots, { day: '', startTime: '', endTime: '' }];
-//       return {
-//         ...prevData,
-//         services: [
-//           {
-//             ...prevData.services[0],
-//             timeSlots,
-//           },
-//         ],
-//       };
-//     });
-//   };
-
-//   const removeTimeSlot = (timeSlotIndex) => {
-//     setFormData((prevData) => {
-//       const timeSlots = [...prevData.services[0].timeSlots];
-//       timeSlots.splice(timeSlotIndex, 1);
-//       return {
-//         ...prevData,
-//         services: [
-//           {
-//             ...prevData.services[0],
-//             timeSlots,
-//           },
-//         ],
-//       };
-//     });
-//   };
-
-//   const addService = () => {
-//     if (selectedRowIndex !== null) {
-//       // If a row is selected, update the data at the selected index
-//       setSubmittedData((prevData) => {
-//         const newData = [...prevData];
-//         newData[selectedRowIndex] = formData.services[0];
-//         return newData;
-//       });
-//       setSelectedRowIndex(null);
-//     } else {
-//       // If no row is selected, add a new row to the table
-//       setSubmittedData((prevData) => [...prevData, formData.services[0]]);
-//     }
-
-//     setFormData({
-//       ownerName: '',
-//       salonName: '',
-//       email: '',
-//       password: '',
-//       gender: 'male',
-//       phone: '',
-//       photo: '',
-//       experience: '',
-//       bio: '',
-//       location: '',
-//       address: '',
-//       services: [
-//         {
-//           name: '',
-//           price: 0,
-//           timeSlots: [{ day: '', startTime: '', endTime: '' }],
-//         },
-//       ],
-//     });
-//   };
-
-//   const handleDelete = (index) => {
-//     setSubmittedData((prevData) => {
-//       const newData = [...prevData];
-//       newData.splice(index, 1);
-//       return newData;
-//     });
-
-//     // Clear the form data if the deleted row was being edited
-//     if (index === selectedRowIndex) {
-//       setFormData({
-//         ownerName: '',
-//         salonName: '',
-//         email: '',
-//         password: '',
-//         gender: 'male',
-//         phone: '',
-//         photo: '',
-//         experience: '',
-//         bio: '',
-//         location: '',
-//         address: '',
-//         services: [
-//           {
-//             name: '',
-//             price: 0,
-//             timeSlots: [{ day: '', startTime: '', endTime: '' }],
-//           },
-//         ],
-//       });
-//       setSelectedRowIndex(null);
-//     }
-//   };
-
-//   const handleUpdate = (index) => {
-//     setFormData({
-//       ownerName: '',
-//       salonName: '',
-//       email: '',
-//       password: '',
-//       gender: 'male',
-//       phone: '',
-//       photo: '',
-//       experience: '',
-//       bio: '',
-//       location: '',
-//       address: '',
-//       services: [{ ...submittedData[index] }],
-//     });
-
-//     setSelectedRowIndex(index);
-//   };
-
-//   const handleSubmit = () => {
-//     // Send the form data to your backend for processing
-//     console.log('Form Data:', formData);
-
-//     // TODO: Add logic to send data to the database
-
-//     // Reset the form after submission if needed
-//     setFormData({
-//       ownerName: '',
-//       salonName: '',
-//       email: '',
-//       password: '',
-//       gender: 'male',
-//       phone: '',
-//       photo: '',
-//       experience: '',
-//       bio: '',
-//       location: '',
-//       address: '',
-//       services: [
-//         {
-//           name: '',
-//           price: 0,
-//           timeSlots: [{ day: '', startTime: '', endTime: '' }],
-//         },
-//       ],
-//     });
-//     setSelectedRowIndex(null);
-//   };
-
-//   return (
-//     <div className="container mx-auto my-8">
-//       <h2 className="text-2xl font-bold mb-4">Salon Services Listing</h2>
-//       <form className="mb-8">
-//         {/* ... Other form fields ... */}
-
-//         {/* Services Section */}
-//         <div className="mb-4">
-//           <h3 className="text-xl font-semibold mb-2">Services</h3>
-//           {formData.services.map((service, serviceIndex) => (
-//             <div key={serviceIndex} className="flex mb-2">
-//               <input
-//                 type="text"
-//                 value={service.name}
-//                 onChange={(e) => handleServiceChange('name', e.target.value)}
-//                 className="border rounded p-2 mr-2"
-//                 placeholder="Service Name"
-//               />
-//               <input
-//                 type="number"
-//                 value={service.price}
-//                 onChange={(e) => handleServiceChange('price', e.target.value)}
-//                 className="border rounded p-2 mr-2"
-//                 placeholder="Service Price"
-//               />
-//               {service.timeSlots.map((timeSlot, timeSlotIndex) => (
-//                 <div key={timeSlotIndex} className="flex mb-2">
-//                   <select
-//                     value={timeSlot.day}
-//                     onChange={(e) => handleTimeSlotChange(timeSlotIndex, 'day', e.target.value)}
-//                     className="border rounded p-2 mr-2"
-//                   >
-//                     <option value="" disabled>Select a day</option>
-//                     {daysOfWeek.map((day) => (
-//                       <option key={day} value={day}>
-//                         {day}
-//                       </option>
-//                     ))}
-//                   </select>
-
-//                   <input
-//                     type="time"
-//                     value={timeSlot.startTime}
-//                     onChange={(e) => handleTimeSlotChange(timeSlotIndex, 'startTime', e.target.value)}
-//                     className="border rounded p-2 mr-2"
-//                   />
-
-//                   <input
-//                     type="time"
-//                     value={timeSlot.endTime}
-//                     onChange={(e) => handleTimeSlotChange(timeSlotIndex, 'endTime', e.target.value)}
-//                     className="border rounded p-2 mr-2"
-//                   />
-
-//                   <button
-//                     type="button"
-//                     onClick={() => removeTimeSlot(timeSlotIndex)}
-//                     className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-700"
-//                   >
-//                     Remove
-//                   </button>
-//                 </div>
-//               ))}
-//               <button
-//                 type="button"
-//                 onClick={addTimeSlot}
-//                 className="bg-green-500 text-white py-1 px-2 rounded hover:bg-green-700"
-//               >
-//                 Add TimeSlot
-//               </button>
-//             </div>
-//           ))}
-//         </div>
-//         {/* End Services Section */}
-
-//         <button
-//           type="button"
-//           onClick={addService}
-//           className="bg-green-500 text-white py-1 px-2 rounded hover:bg-green-700 mr-2"
-//         >
-//           {selectedRowIndex !== null ? 'Update Service' : 'Add Service'}
-//         </button>
-
-//         <button
-//           type="button"
-//           onClick={handleSubmit}
-//           className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-//         >
-//           Submit
-//         </button>
-//       </form>
-
-//       {/* Display Submitted Data */}
-//       <div className="mt-8">
-//         <button
-//           type="button"
-//           onClick={() => setShowTable(!showTable)}
-//           className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mb-4"
-//         >
-//           {showTable ? 'Hide Table Data' : 'Show Table Data'}
-//         </button>
-//         {showTable && (
-//           <div>
-//             <h3 className="text-xl font-semibold mb-2">Submitted Data</h3>
-//             <table className="w-full border">
-//               <thead>
-//                 <tr>
-//                   <th className="border p-2">Service Name</th>
-//                   <th className="border p-2">Service Price</th>
-//                   <th className="border p-2">Time Slots</th>
-//                   <th className="border p-2">Actions</th>
-//                 </tr>
-//               </thead>
-//               <tbody>
-//                 {submittedData.map((service, serviceIndex) => (
-//                   <tr key={serviceIndex}>
-//                     <td className="border p-2">{service.name}</td>
-//                     <td className="border p-2">{service.price}</td>
-//                     <td className="border p-2">
-//                       <ul className="list-disc pl-4">
-//                         {service.timeSlots.map((timeSlot, timeSlotIndex) => (
-//                           <li key={timeSlotIndex}>
-//                             {timeSlot.day} - {timeSlot.startTime} to {timeSlot.endTime}
-//                           </li>
-//                         ))}
-//                       </ul>
-//                     </td>
-//                     <td className="border p-2">
-//                       <button
-//                         type="button"
-//                         onClick={() => handleUpdate(serviceIndex)}
-//                         className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-700 mr-2"
-//                       >
-//                         Update
-//                       </button>
-//                       <button
-//                         type="button"
-//                         onClick={() => handleDelete(serviceIndex)}
-//                         className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-700"
-//                       >
-//                         Delete
-//                       </button>
-//                     </td>
-//                   </tr>
-//                 ))}
-//               </tbody>
-//             </table>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SalonRegister;
-
-
-// import React, { useState } from 'react';
-
-// const SalonRegister = () => {
-//   const [formData, setFormData] = useState({
-//     ownerName: '',
-//     salonName: '',
-//     email: '',
-//     password: '',
-//     gender: '',
-//     role: 'salon',
-//     phone: '',
-//     cnicNo:'',
-//     photo: '',
-//     experience: '',
-//     bio: '',
-//     location: '',
-//     address: '',
-//     services: [
-//       {
-//         name: '',
-//         price: 0,
-//         timeSlots: [{ day: '', startTime: '', endTime: '' }],
-//       },
-//     ],
-//   });
-
-//   const [submittedData, setSubmittedData] = useState([]);
-//   const [showTable, setShowTable] = useState(true);
-//   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
-
-//   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-//   const handleServiceChange = (field, value) => {
-//     setFormData((prevData) => ({
-//       ...prevData,
-//       services: [
-//         {
-//           ...prevData.services[0],
-//           [field]: value,
-//         },
-//       ],
-//     }));
-//   };
-
-//   const handleTimeSlotChange = (timeSlotIndex, field, value) => {
-//     setFormData((prevData) => {
-//       const timeSlots = [...prevData.services[0].timeSlots];
-//       timeSlots[timeSlotIndex][field] = value;
-//       return {
-//         ...prevData,
-//         services: [
-//           {
-//             ...prevData.services[0],
-//             timeSlots,
-//           },
-//         ],
-//       };
-//     });
-//   };
-
-//   const addTimeSlot = () => {
-//     setFormData((prevData) => {
-//       const timeSlots = [...prevData.services[0].timeSlots, { day: '', startTime: '', endTime: '' }];
-//       return {
-//         ...prevData,
-//         services: [
-//           {
-//             ...prevData.services[0],
-//             timeSlots,
-//           },
-//         ],
-//       };
-//     });
-//   };
-
-//   const removeTimeSlot = (timeSlotIndex) => {
-//     setFormData((prevData) => {
-//       const timeSlots = [...prevData.services[0].timeSlots];
-//       timeSlots.splice(timeSlotIndex, 1);
-//       return {
-//         ...prevData,
-//         services: [
-//           {
-//             ...prevData.services[0],
-//             timeSlots,
-//           },
-//         ],
-//       };
-//     });
-//   };
-
-//   const addService = () => {
-//     // If a row is selected, update the data at the selected index
-//     if (selectedRowIndex !== null) {
-//       setSubmittedData((prevData) => {
-//         const newData = [...prevData];
-//         newData[selectedRowIndex] = formData.services[0];
-//         return newData;
-//       });
-//       setSelectedRowIndex(null);
-//     } else {
-//       // If no row is selected, add a new row to the table
-//       setSubmittedData((prevData) => [...prevData, formData.services[0]]);
-//     }
-
-//     setFormData({
-//       ownerName: '',
-//       salonName: '',
-//       email: '',
-//       password: '',
-//       gender: '',
-//       role: 'salon',
-//       phone: '',
-//       photo: '',
-//       experience: '',
-//       bio: '',
-//       location: '',
-//       address: '',
-//       services: [
-//         {
-//           name: '',
-//           price: 0,
-//           timeSlots: [{ day: '', startTime: '', endTime: '' }],
-//         },
-//       ],
-//     });
-//   };
-
-//   const handleUpdate = (index) => {
-//     setFormData({
-//       ownerName: '',
-//       salonName: '',
-//       email: '',
-//       password: '',
-//       gender: '',
-//       role: 'salon',
-//       phone: '',
-//       photo: '',
-//       experience: '',
-//       bio: '',
-//       location: '',
-//       address: '',
-//       services: [{ ...submittedData[index] }],
-//     });
-
-//     setSelectedRowIndex(index);
-//   };
-
-//   const handleUpdateService = () => {
-//     // TODO: Add logic to send data to the database
-//     console.log('Updating data in the database:', formData);
-//   };
-
-//   const handleDelete = (index) => {
-//     setSubmittedData((prevData) => {
-//       const newData = [...prevData];
-//       newData.splice(index, 1);
-//       return newData;
-//     });
-
-//     // Clear the form data if the deleted row was being edited
-//     if (index === selectedRowIndex) {
-//       setFormData({
-//         ownerName: '',
-//         salonName: '',
-//         email: '',
-//         password: '',
-//         gender: '',
-//         role: 'salon',
-//         phone: '',
-//         photo: '',
-//         experience: '',
-//         bio: '',
-//         location: '',
-//         address: '',
-//         services: [
-//           {
-//             name: '',
-//             price: 0,
-//             timeSlots: [{ day: '', startTime: '', endTime: '' }],
-//           },
-//         ],
-//       });
-//       setSelectedRowIndex(null);
-//     }
-//   };
-
-//   return (
-//     <div className="container mx-auto my-8">
-//       <h2 className="text-2xl font-bold mb-4">Salon Services Listing</h2>
-//       <form className="mb-8">
-//         {/* ... Other form fields ... */}
-
-//         {/* Services Section */}
-//         <div className="mb-4">
-//           <h3 className="text-xl font-semibold mb-2">Services</h3>
-//           {formData.services.map((service, serviceIndex) => (
-//             <div key={serviceIndex} className="flex mb-2">
-//               <input
-//                 type="text"
-//                 value={service.name}
-//                 onChange={(e) => handleServiceChange('name', e.target.value)}
-//                 className="border rounded p-2 mr-2"
-//                 placeholder="Service Name"
-//               />
-//               <input
-//                 type="number"
-//                 value={service.price}
-//                 onChange={(e) => handleServiceChange('price', e.target.value)}
-//                 className="border rounded p-2 mr-2"
-//                 placeholder="Service Price"
-//               />
-//               {service.timeSlots.map((timeSlot, timeSlotIndex) => (
-//                 <div key={timeSlotIndex} className="flex mb-2">
-//                   <select
-//                     value={timeSlot.day}
-//                     onChange={(e) => handleTimeSlotChange(timeSlotIndex, 'day', e.target.value)}
-//                     className="border rounded p-2 mr-2"
-//                   >
-//                     <option value="" disabled>Select a day</option>
-//                     {daysOfWeek.map((day) => (
-//                       <option key={day} value={day}>
-//                         {day}
-//                       </option>
-//                     ))}
-//                   </select>
-
-//                   <input
-//                     type="time"
-//                     value={timeSlot.startTime}
-//                     onChange={(e) => handleTimeSlotChange(timeSlotIndex, 'startTime', e.target.value)}
-//                     className="border rounded p-2 mr-2"
-//                   />
-
-//                   <input
-//                     type="time"
-//                     value={timeSlot.endTime}
-//                     onChange={(e) => handleTimeSlotChange(timeSlotIndex, 'endTime', e.target.value)}
-//                     className="border rounded p-2 mr-2"
-//                   />
-
-//                   <button
-//                     type="button"
-//                     onClick={() => removeTimeSlot(timeSlotIndex)}
-//                     className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-700"
-//                   >
-//                     Remove
-//                   </button>
-//                 </div>
-//               ))}
-//               <button
-//                 type="button"
-//                 onClick={addTimeSlot}
-//                 className="bg-green-500 text-white py-1 px-2 rounded hover:bg-green-700"
-//               >
-//                 Add TimeSlot
-//               </button>
-//             </div>
-//           ))}
-//         </div>
-//         {/* End Services Section */}
-
-//         <button
-//           type="button"
-//           onClick={addService}
-//           className="bg-green-500 text-white py-1 px-2 rounded hover:bg-green-700 mr-2"
-//         >
-//           {selectedRowIndex !== null ? (
-//             <button
-//               type="button"
-//               onClick={handleUpdateService}
-//               className="bg-green-500 text-white py-1 px-2 rounded hover:bg-green-700 mr-2"
-//             >
-//               Update Service
-//             </button>
-//           ) : (
-//             'Add Service'
-//           )}
-//         </button>
-//       </form>
-
-//       {/* Display Submitted Data */}
-//       <div className="mt-8">
-//         <button
-//           type="button"
-//           onClick={() => setShowTable(!showTable)}
-//           className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mb-4"
-//         >
-//           {showTable ? 'Hide Table Data' : 'Show Table Data'}
-//         </button>
-//         {showTable && (
-//           <div>
-//             <h3 className="text-xl font-semibold mb-2">Submitted Data</h3>
-//             <table className="w-full border">
-//               <thead>
-//                 <tr>
-//                   <th className="border p-2">Service Name</th>
-//                   <th className="border p-2">Service Price</th>
-//                   <th className="border p-2">Time Slots</th>
-//                   <th className="border p-2">Actions</th>
-//                 </tr>
-//               </thead>
-//               <tbody>
-//                 {submittedData.map((service, serviceIndex) => (
-//                   <tr key={serviceIndex}>
-//                     <td className="border p-2">{service.name}</td>
-//                     <td className="border p-2">{service.price}</td>
-//                     <td className="border p-2">
-//                       <ul className="list-disc pl-4">
-//                         {service.timeSlots.map((timeSlot, timeSlotIndex) => (
-//                           <li key={timeSlotIndex}>
-//                             {timeSlot.day} - {timeSlot.startTime} to {timeSlot.endTime}
-//                           </li>
-//                         ))}
-//                       </ul>
-//                     </td>
-//                     <td className="border p-2">
-//                       <button
-//                         type="button"
-//                         onClick={() => handleUpdate(serviceIndex)}
-//                         className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-700 mr-2"
-//                       >
-//                         Update
-//                       </button>
-//                       <button
-//                         type="button"
-//                         onClick={() => handleDelete(serviceIndex)}
-//                         className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-700"
-//                       >
-//                         Delete
-//                       </button>
-//                     </td>
-//                   </tr>
-//                 ))}
-//               </tbody>
-//             </table>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
 
 // export default SalonRegister;
 import React, { useState } from 'react';
@@ -722,8 +16,11 @@ const SalonRegister = () => {
     gender: '',
     role: 'salon',
     phone: '',
+    easyPaisa: '', // salon account numbers as easypaisa
+    jazzCash: '', // salon account numbers as jazzcash
     cnicNo: '',
     photo: '', // 
+    serviceImage: '', // add service images
     coverImage: '', // add cover images multiple images 
     experience: '',
     bio: '',
@@ -734,6 +31,7 @@ const SalonRegister = () => {
         name: '',
         serviceDescription:'',
         price: 0,
+        serviceImage : '', // added service images!
         timeSlots: [{startTime: '',  }],
 
       },
@@ -764,7 +62,7 @@ const SalonRegister = () => {
   const handleSubmit =  async (event) => {
     // TODO: Add logic to send data to the database
      event.preventDefault();
-    console.log('Submitting data to the database:', formData);
+   
    // setLoading(true);
 
     try {
@@ -801,6 +99,8 @@ const SalonRegister = () => {
     gender: '',
     role: 'salon',
     phone: '',
+    easyPaisa: '', // salon account numbers as easypaisa
+    jazzCash: '', // salon account numbers as jazzcash
     cnicNo: '',
     photo: '',
     coverImage: '',
@@ -813,6 +113,7 @@ const SalonRegister = () => {
         name: '',
         serviceDescription:'',
         price: 0,
+        serviceImage : '', // added service images!
         timeSlots: [{ startTime: '',  }],
       },
     ],
@@ -915,7 +216,6 @@ const SalonRegister = () => {
               placeholder="Phone"
             />
           </div>
-
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">CNIC No:</label>
             <input
@@ -925,6 +225,7 @@ const SalonRegister = () => {
               onChange={hanldeInputChange}
               className="border rounded p-2 w-full"
               placeholder="CNIC No"
+              required
             />
           </div>
 
@@ -932,7 +233,7 @@ const SalonRegister = () => {
             <button
               type='submit'
               disabled={loading && true}
-              className="bg-btnColor text-white py-2 px-4 rounded hover:bg-pink-700  w-full flex items-center justify-center gap-2"
+              className="bg-btnColor text-white py-2 px-4 rounded-full hover:bg-pink-700   w-full flex items-center justify-center gap-2"
             >
               {loading ? <HashLoader color='#fff' size={32} /> : 'Submit'}
               
@@ -940,12 +241,10 @@ const SalonRegister = () => {
 
             <p className="mt-4">
               Already have an account?{' '}
-              <Link to="/salonLogin" className="text-btnColor hover:text-pink-500">
+              <Link to="/salonLogin" className="text-btnColor hover:text-pink-500 ">
                 Login
               </Link>
             </p>
-              
-
           </div>
         </form>
       </div>

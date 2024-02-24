@@ -1,9 +1,10 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import Logo from '../../assets/images/logo-removebg.png';
 import { BiMenu } from 'react-icons/bi';
 import { FaBell } from 'react-icons/fa';
 import { authContext } from "../../context/AuthContext.jsx";
+
 
 const navLinks = [
     {
@@ -18,6 +19,14 @@ const navLinks = [
         path: '/services',
         display: 'Our Service'
     },
+    {
+        path: '/aboutus',
+        display: 'About Us'
+    },
+    {
+        path: '/blog',
+        display: 'Blogs'
+    },
 ];
 
 const Header = () => {
@@ -25,6 +34,7 @@ const Header = () => {
     const menuRef = useRef(null);
     const { user, salon, token, role } = useContext(authContext);
     const headerRef = useRef(null);
+    const location = useLocation();
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);
@@ -70,15 +80,22 @@ const Header = () => {
 
                     {/* Logo */}
                     <div>
-                        <img src={Logo} alt="beautyBook" width="100px" height="80px" />
+                        <Link to={"/"}>
+                        <img src={Logo} alt="beautyBook" className="logo w-24 h-24 md:w-32 md:h-32 " />
+                        </Link>
                     </div>
-                   
+
                     {/* Navigation */}
                     <div className="navigation" ref={menuRef} onClick={toggleMenu}>
                         <ul className="menu flex items-center gap-[2.7rem]">
                             {navLinks.map((link, index) => (
                                 <li key={index}>
-                                    <NavLink to={link.path} className="text-textColor text-[16px] leading-7 font-[500]">{link.display}</NavLink>
+                                    <NavLink to={link.path} className="text-textColor text-[16px] leading-7 font-[500]"
+                                        activeClassName="text-pink-500"
+                                        isActive={() => link.path === location.pathname}
+                                    >
+                                        {link.display}
+                                    </NavLink>
                                 </li>
                             ))}
                         </ul>
@@ -87,16 +104,16 @@ const Header = () => {
                     {/* Login Button with Option Selection */}
                     <div className="flex items-center gap-4">
                         <span className="text-btnColor">
-                            <FaBell className="w-6 h-6" />
+
                         </span>
                         {token && (user || salon) && role ?
                             (
-                                <div>
-                                    <Link to={`/${role === 'salon' ? 'salon/profile' : 'user/profile'}/${user?._id || salon?._id}`}>
-                                        <figure className="w-[35px] h-[35px] rounded-full">
-                                            <img src={user?.photo || salon?.photo} className="w-full rounded-full" alt="img" />
+                                <div className="flex items-center">
+                                    <Link to={`/${role === 'salon' ? 'salon/profile' : 'user/profile'}/${user?._id || salon?._id}`} className="flex items-center">
+                                        <figure className="w-10 h-10 rounded-full overflow-hidden mr-2">
+                                            <img src={user?.photo || salon?.photo} className="w-full h-full object-cover" alt="img" />
                                         </figure>
-                                        <h2>{user?.name || salon?.ownerName}</h2>
+                                        <h2 className="py-2 px-2 text-sm">{user?.name || salon?.ownerName}</h2>
                                     </Link>
                                 </div>
                             ) : (
@@ -106,7 +123,7 @@ const Header = () => {
                                         <option value="salon">Login as Salon</option>
                                     </select>
                                     <Link to={selectedOption === 'salon' ? '/salonlogin' : '/login'}>
-                                        <button className="bg-btnColor py-2 px-6 flex items-center text-white font-[600] h-[44px] justify-center rounded-[50px]">
+                                        <button className="bg-btnColor py-2 px-4 flex items-center text-white font-[600] h-[34px] justify-center rounded-[50px]">
                                             Login
                                         </button>
                                     </Link>

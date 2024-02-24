@@ -8,28 +8,19 @@ import Allsalon from '../../components/Salon/Allsalon.jsx';
 import LocationCard from '../../components/Location/locationCard.jsx';
 import { authContext } from '../../context/AuthContext.jsx';
 import { useContext } from 'react';
-import BeautyChar from '../../assets/images/beautyChar.png';
-import BeautyChar2 from '../../assets/images/Char2.png';
-
+import B1 from '../../assets/images/b1.svg';
+import B2 from '../../assets/images/b2.svg';
 
 //  hero sction //
-
 const Home = () => {
    // const location = useGeolocation();
    const { role } = useContext(authContext);
-
    return (
-
       <>
          <LocationCard />
          <Carousel />
-
          {role === 'salon' ? <SalonList /> : <Allsalon />}
-
          <ServiceCards />
-
-
-
          <section className='container'>
             <div >
                <div>
@@ -39,89 +30,64 @@ const Home = () => {
                   <p>BeautyBook is a free beauty scheduling app and makes appointments easy to find and book within seconds. <br /> No more phone tag. Book anytime, from anywhere, 24/7.
                   </p>
                </div>
-
                <div className='flex justify-center text-center'>
                   <p>
                      BeautyBook is a gateway to a revolutionized beauty experience. We're changing the game, <br /> making beauty bookings convenient, transparent, and accessible.
                   </p>
                </div>
-
             </div>
          </section>
-
-         <section className='my-5'>
-            <div className='container flex flex-col md:flex-row justify-center items-center gap-10'>
-               <div className='md:w-1/2'>
-                  <img src={BeautyChar} alt="Beauty Character" className="w-50" />
-               </div>
-
-               <div className='md:w-1/2'>
-                  <div className='font-semibold text-2xl mb-6'>Appointments Done Better</div>
-                  <div>
-                     <p className='mb-4 text-lg'>
-                        Looking for your next appointment with the best salon, hair stylist,
-                        massage therapist, or nail artist? Need appointment booking for a
-                        trimming, an eyebrow wax, or a deep massage?
+         <section className='container justify-center items-center'>
+            <div className='flex flex-col items-center'>
+               {/* Text and Image container */}
+               <div className='lg:flex justify-center items-center'>
+                  {/* Text content */}
+                  {/* Image */}
+                  <div className='flex justify-center mt-5 lg:mt-0 mr-10'>
+                     <img src={B1} style={{ width: '300px', height: '300px' }} className="w-40 h-40 lg:w-48 lg:h-48" alt="" />
+                  </div>
+                  <div className='lg:w-[400px] text-center lg:text-left'>
+                     <div className='text-headingColor font-extrabold text-lg'>Appointments done better</div>
+                     <p className='text-justify py-3'>
+                        Looking for your next appointment with a best salon, hair stylist,
+                        massage therapist or nail artist? Need appointment booking for a
+                        triming, an eyebrow wax, or a deep massage?
                      </p>
-                     <p className='mb-4 text-lg'>
+                     <p className='text-justify py-3'>
                         BeautyBook is a free beauty scheduling app and makes appointments easy to find and book within seconds. Book
                         anytime, from anywhere, 24/7.
-                     </p>
-                     <p className='mb-4 text-lg font-semibold'>
-                        Discover top salon in your area and book instantly with
-                        BeautyBook.
                      </p>
                   </div>
                </div>
             </div>
          </section>
-
-         <section className='my-5'>
-            <div className='container flex flex-col md:flex-row justify-center items-center gap-10'>
-
-               <div className='md:w-1/2'>
-                  <div className='font-semibold text-2xl mb-6'>Book with the best, near you</div>
-                  <div>
-                     <p className='mb-4 text-lg'>
+         <section className='container justify-center items-center'>
+            <div className='flex flex-col items-center'>
+               {/* Text and Image container */}
+               <div className='lg:flex justify-center items-center'>
+                  {/* Text content */}
+                  {/* Image */}
+                  <div className='lg:w-[400px] text-center lg:text-left'>
+                     <div className='text-headingColor font-extrabold text-lg'>BOOK ANYTIME,ANYWHERE</div>
+                     <p className='text-justify py-3'>
                         Take a scroll around the block to see top health and beauty
                         businesses on Booksy’s marketplace.
                      </p>
-                     <p className='mb-4 text-lg'>
-                        Check out their vibe from their business profile and hear what other
-                        people are saying with verified reviews. You can even look through
-                        their portfolio of work.
+                     <p className='text-justify py-3'>
+                        Take a scroll around the block to see top health and beauty
+                        businesses on Booksy’s marketplace.
                      </p>
-                     <p className='mb-4 text-lg '>
+                     <p className='text-justify py-3'>
                         Save time and leave the stress to someone else. With Booksy, setting
                         up your next beauty appointment is free and easy.
                      </p>
                   </div>
-               </div>
-               <div className='md:w-1/2'>
-                  <img src={BeautyChar2} alt="Beauty Character" className="w-50" />
+                  <div className='flex justify-center mt-5 lg:mt-0 mr-10'>
+                     <img src={B2} style={{ width: '300px', height: '300px' }} className="w-40 h-40 lg:w-48 lg:h-48" alt="" />
+                  </div>
                </div>
             </div>
          </section>
-         {/* salon services profile feature */}
-
-         {/* <section >
-     <div className='container bg-cardBgColor '>
-      
-        <div className='xl:w-[400px] mx-auto'>
-         <h2 className='heading text-center '>
-            Our Beauty Salon
-         </h2>
-        </div>         */}
-         {/* <Salonlist salons={salons} /> */}
-         {/* </div>
-       </section> */}
-
-         {/* <div className='card'>
-            <div className='card-header text-left '>
-               <div>{location.loaded ? JSON.stringify(location): "location not here" }</div>
-            </div>
-       </div> */}
-
       </>
 
    );

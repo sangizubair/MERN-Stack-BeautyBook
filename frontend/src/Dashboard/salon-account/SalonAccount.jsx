@@ -45,7 +45,6 @@ const SalonAccount = () => {
         setUserProfile(userData.data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching user profile:', error.message);
         setError('Something went wrong while fetching user profile.');
         setLoading(false);
       }
@@ -66,7 +65,7 @@ const SalonAccount = () => {
             <div className='md:col-span-1 md:px-[20px]'>
               <div className='bg-white p-4 rounded-md shadow-xl'>
                 <div className='flex flex-col items-center'>
-                  <figure className='w-[100px] h-[100px] rounded-full border-2 border-solid mb-4'>
+                  <figure className='w-[200px] h-[200px] rounded-full overflow-hidden border-2 border-solid mb-4'>
                     <img src={userProfile.photo} alt='' className='w-full h-full' />
                   </figure>
                   <div className='text-center'>
@@ -90,14 +89,7 @@ const SalonAccount = () => {
                     >
                       <span className='mr-2'>📝</span> Edit Profile
                     </button>
-                    <button
-                      onClick={() => setTab('salon')}
-                      className={`${
-                        tab === 'salon' && 'bg-btnColor text-white font-normal border-none'
-                      } btn-style`}
-                    >
-                      <span className='mr-2'>💇‍♀️</span> Apply for Salon
-                    </button>
+                 
                     <button
                       onClick={handleLogout}
                       className='btn-style text-btnColor border border-red-300 hover:bg-btnColor hover:text-white w-full p-3 text-[16px] leading-7 rounded-md mt-4 flex items-center'
@@ -109,21 +101,11 @@ const SalonAccount = () => {
               </div>
             </div>
             <div className='md:col-span-2 md:px-[20px]'>
-              {/* Right side content */}
+              
               {tab === 'bookings' && <MyBookings />}
               {tab === 'setting' && <Profile userData={userProfile} />}
               
-              {tab === 'salon' && <div><Link to='/salonRegister' > Apply for Salon 
-
-             
-              </Link>
-              <div className='mt-6'>
-                
-               <a href="#" className='text-btnColor'>see video how to apply for salon</a>
-              </div>
-              </div>
-                 
-              }
+            
             </div>
           </div>
         )}

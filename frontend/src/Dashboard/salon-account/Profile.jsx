@@ -27,6 +27,8 @@ const Profile = ({ userData }) => {  // yahan masla thaa
     gender: '',
     role: 'salon',
     phone: '',
+    easyPaisa: '', // salon account numbers as easypaisa
+    jazzCash: '', // salon account numbers as jazzcash
     cnicNo: '',
 
     // seperate bio section in profile setting
@@ -43,6 +45,7 @@ const Profile = ({ userData }) => {  // yahan masla thaa
         name: '',
         serviceDescription: '',
         price: 0,
+        serviceImage: '', // add service images
         timeSlots: [{ startTime: '', }],
       },
     ],
@@ -60,7 +63,7 @@ const Profile = ({ userData }) => {  // yahan masla thaa
 
 
   // const [Services, setServices] = useState([]);
-  const [showService , setShowService] = useState(true);
+  const [showService, setShowService] = useState(true);
   const [WorkingHours, SetWorkingHours] = useState([]);
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -71,7 +74,7 @@ const Profile = ({ userData }) => {  // yahan masla thaa
 
   useEffect(() => {
     setFormData({
-      ownerName: userData.ownerName, salonName: userData.salonName, email: userData.email, password: userData.password, gender: userData.gender, phone: userData.phone, cnicNo: userData.cnicNo, coverImage: userData.coverImage || [], services: userData.services || [], workingHours: userData.workingHours || []
+      ownerName: userData.ownerName, salonName: userData.salonName, email: userData.email, password: userData.password, gender: userData.gender, phone: userData.phone, easyPaisa: userData.easyPaisa, jazzCash: userData.jazzCash, cnicNo: userData.cnicNo, coverImage: userData.coverImage || [], services: userData.services || [], workingHours: userData.workingHours || []
     });
 
     // setServices(userData.services || []);
@@ -85,17 +88,29 @@ const Profile = ({ userData }) => {  // yahan masla thaa
       [e.target.name]: e.target.value,
     });
   };
-
+  // this i would use for image upload as profile picture of salon and 
   const handleFileInputChange = async (event) => {
     const file = event.target.files[0];
 
     // upload image into cloudinary
     const data = await uploadImageToCloudinary(file)
-    console.log(data);
+
     // setPreviewUrl(data.url);
     setSelectedFile(data.url);
     setFormData({ ...formData, photo: data.url });
 
+  };
+
+  // upload image for salon service image
+  const handleFileInputChangeForServiceImg = async (event, serviceIndex) => {
+    const file = event.target.files[0];
+    const data = await uploadImageToCloudinary(file);
+    const updatedServices = [...formData.services];
+    updatedServices[serviceIndex].serviceImage = data.url;
+    setFormData({
+      ...formData,
+      services: updatedServices,
+    });
   };
 
   // upload cover images 
@@ -117,53 +132,7 @@ const Profile = ({ userData }) => {  // yahan masla thaa
 
   };
 
- // const [selectedTimeSlot, setSelectedTimeSlot] = useState([]);
 
-  // const handleServiceChange = (index, field, value) => {
-  //   const updatedServices = [...Services];
-  //   updatedServices[index][field] = value;
-  //   // If the field is 'timeSlots', initialize an empty time slot
-  // if (field === 'timeSlots') {
-  //   updatedServices[index].timeSlots = [{ startTime: '' }];
-  // }
-
-  //  setServices(updatedServices);
-  // };
-
-
-  // only for services section
-  // const handleTimeSlotChange = (serviceIndex, timeSlotIndex, field, value) => {
-  //   const updatedServices = [...Services];
-  //   const timeSlot = updatedServices[serviceIndex].timeSlots[timeSlotIndex];
-  //   timeSlot[field] = value;
-
-  //   // Update the timeSlot string with the new timeSlot values
-  //   updatedServices[serviceIndex].timeSlots[timeSlotIndex].timeSlot = ` ${timeSlot.startTime}`;
-
-  //   setServices(updatedServices);
-  // };
-
-
-  // const addTimeSlot = (serviceIndex) => {
-  //   const updatedServices = [...Services];
-  //   const newTimeSlot = { startTime: '', };
-  //   updatedServices[serviceIndex].timeSlots.push({ ...newTimeSlot, timeSlot: '' });
-  //   setServices(updatedServices);
-  // };
-
-  // const removeTimeSlot = (serviceIndex, timeSlotIndex) => {
-  //   const updatedServices = [...Services];
-  //   const updatedTimeSlots = [...updatedServices[serviceIndex].timeSlots];
-
-  //   updatedTimeSlots.splice(timeSlotIndex, 1);
-
-  //   updatedServices[serviceIndex] = {
-  //     ...updatedServices[serviceIndex],
-  //     timeSlots: updatedTimeSlots,
-  //   };
-
-  //   setServices(updatedServices);
-  // };
 
 
 
@@ -194,7 +163,7 @@ const Profile = ({ userData }) => {  // yahan masla thaa
 
   const handleSaveServices = () => {
     // Perform save operation (e.g., send data to server)
-    console.log('Saved Services:', Services);
+
     // For now, just log the services to the console
   };
 
@@ -216,6 +185,7 @@ const Profile = ({ userData }) => {  // yahan masla thaa
           name: '',
           serviceDescription: '',
           price: 0,
+          serviceImage: '', // add service images
           timeSlots: [{ startTime: '' }],
         },
       ],
@@ -265,7 +235,7 @@ const Profile = ({ userData }) => {  // yahan masla thaa
 
 
   const handleSubmit = async (event) => {
-    // console.log("Form Data:", formData);
+
     event.preventDefault();
     setLoading(true);
 
@@ -274,7 +244,7 @@ const Profile = ({ userData }) => {  // yahan masla thaa
     try {
       const updatedFormData = {
         ...formData,
-         // Include the updated services data
+        // Include the updated services data
         workingHours: WorkingHours, // Include the updated working hours data
       };
 
@@ -321,6 +291,7 @@ const Profile = ({ userData }) => {  // yahan masla thaa
             className="border rounded p-2 w-full"
             placeholder="Owner Name"
           />
+
         </div>
 
         <div className="mb-4">
@@ -386,6 +357,7 @@ const Profile = ({ userData }) => {  // yahan masla thaa
           />
         </div>
 
+
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">CNIC No:</label>
           <input
@@ -420,7 +392,7 @@ const Profile = ({ userData }) => {  // yahan masla thaa
               className='absolute top-0 left-0 w-full h-full flex items-center px-2 text-sm leading-4 overflow-visible bg-slate-100 text-headingColor font-semibold rounded-lg truncate cursor-pointer z-0'
 
             >
-              {selectedFile ? selectedFile.name : 'Upload Photo'}
+              {selectedFile ? selectedFile.name : <><FaCamera className='mr-2' style={{ width: '30px', height: '30px' }} />profile photo</>}
             </label>
           </div>
 
@@ -432,11 +404,32 @@ const Profile = ({ userData }) => {  // yahan masla thaa
 
           <h2 className='text-xl font-semibold mt-4 mb-2'>Salon Details Section</h2>
 
-          {/* experience: '', // experience in years
-         bio: '',  // salon description
-         location: '', // city or town name
-         address: '', // street address or salon address */}
 
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">Easy Paisa Account:</label>
+            <input
+              type="text"
+              name='easyPaisa'
+              value={formData.easyPaisa}
+              onChange={hanldeInputChange}
+              className="border rounded p-2 w-full"
+              placeholder="Easy Paisa Account"
+            />
+
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">JazzCash Account:</label>
+            <input
+              type="text"
+              name='jazzCash'
+              value={formData.jazzCash}
+              onChange={hanldeInputChange}
+              className="border rounded p-2 w-full"
+              placeholder="JazzCash Account"
+            />
+
+          </div>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Experience:</label>
             <input
@@ -485,7 +478,7 @@ const Profile = ({ userData }) => {  // yahan masla thaa
             />
           </div>
 
-          {/* add cover images */}
+        
           {/* Cover Image Upload Section */}
           <div className='relative  w-full sm:w-[130px] h-[40px]'>
             <input
@@ -495,6 +488,7 @@ const Profile = ({ userData }) => {  // yahan masla thaa
               name='coverImages'
               id='customFile'
               accept='.png, .jpg'
+
               className='absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10'
             />
             <label
@@ -502,7 +496,7 @@ const Profile = ({ userData }) => {  // yahan masla thaa
               className='absolute top-0 left-0 w-full h-full flex items-center px-2 text-sm leading-4 overflow-visible bg-slate-100 text-headingColor font-semibold rounded-lg truncate cursor-pointer z-0'
             >
               {/* <FaCamera className='mr-2' /> Camera icon */}
-              {selectedFile ? selectedFile.name : <FaCamera className='mr-2' style={{ width: '30px', height: '30px' }} />}
+              {selectedFile ? selectedFile.name : <><FaCamera className='mr-2' style={{ width: '30px', height: '30px' }} />cover Images</>}
 
             </label>
           </div>
@@ -511,256 +505,147 @@ const Profile = ({ userData }) => {  // yahan masla thaa
           <div className='flex flex-wrap gap-3 mt-4'>
             {Array.isArray(formData.coverImage) &&
               formData.coverImage.map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt={`Cover Image ${index + 1}`}
-                  className='w-[100px] h-[100px] object-cover rounded'
-                />
+                <div key={index} className="relative">
+                  <img
+                    src={image}
+                    alt={`Cover Image ${index + 1}`}
+                    className='w-[100px] h-[100px] object-cover rounded'
+                  />
+                  {/* Always render the "remove" button */}
+                  <button
+                    onClick={() => {
+                      const updatedCoverImages = formData.coverImage.filter((_, i) => i !== index);
+                      setFormData({
+                        ...formData,
+                        coverImage: updatedCoverImages,
+                      });
+                    }}
+                    className="absolute top-0 right-0 text-red-500 bg-white rounded-full p-1 shadow-md hover:bg-red-200"
+                  >
+                    X
+                  </button>
+                </div>
               ))}
           </div>
+
+
 
           <hr className='mt-8' />
 
 
 
 
-          {/* services: [  service section 
-      {
-        name: '',
-        serviceDescription:'',
-        price: 0,
-        timeSlots: [{ day: '', startTime: '', endTime: '' }],
-      },
-    ], */}
-          {/* service section */}
-          {/* Services Section */}
           <div className="col-span-2">
             <h2 className="text-xl font-semibold mt-4 mb-2">Salon Service Section</h2>
             <button
-          type="button"
-          onClick={toggleServicesVisibility}
-          className="bg-btnColor mt-4 text-white py-2 px-4 rounded hover:bg-pink-700 w-full flex items-center justify-center gap-2"
-        >
-          {showService ? 'Hide Services' : 'Show Services'}
-        </button>
+              type="button"
+              onClick={toggleServicesVisibility}
+              className="bg-btnColor mt-4 text-white py-2 px-4 rounded hover:bg-pink-700 w-full flex items-center justify-center gap-2"
+            >
+              {showService ? 'Hide Services' : 'Show Services'}
+            </button>
             {showService && (
               <>
 
-            {formData.services.map((service, serviceIndex) => (
-              <div key={serviceIndex}>
-                {/* ... existing fields */}
-                <label className="block text-sm font-medium text-gray-700">Service Name:</label>
-                <input
-                  type="text"
-                  value={service.name}
-                  onChange={(e) => handleServiceChange(serviceIndex, 'name', e.target.value)}
-                  className="border rounded p-2 w-full"
-                  placeholder="Service Name"
-                />
-                <label className="block text-sm font-medium text-gray-700">Service Description:</label>
-                <textarea
-                  type="text"
-                  value={service.serviceDescription}
-                  onChange={(e) =>
-                    handleServiceChange(serviceIndex, 'serviceDescription', e.target.value)
-                  }
-                  className="border rounded p-2 w-full"
-                  placeholder="Service Description"
-                />
-                <label className="block text-sm font-medium text-gray-700">Price:</label>
-                <input
-                  type="number"
-                  value={service.price}
-                  onChange={(e) => handleServiceChange(serviceIndex, 'price', e.target.value)}
-                  className="border rounded p-2 w-full"
-                  placeholder="Price"
-                />
-                <h3 className="text-lg font-semibold mt-2 mb-1">Time Slots</h3>
-                {service.timeSlots.map((timeSlot, timeSlotIndex) => (
-                  <div key={timeSlotIndex}>
-                    <label className="block text-sm font-medium text-gray-700">Time Slot:</label>
+                {formData.services.map((service, serviceIndex) => (
+                  <div key={serviceIndex}>
+                    {/* ... existing fields */}
+                    <label className="block text-sm font-medium text-gray-700">Service Name:</label>
                     <input
-                      type="time"
-                      value={timeSlot.startTime}
+                      type="text"
+                      value={service.name}
+                      onChange={(e) => handleServiceChange(serviceIndex, 'name', e.target.value)}
+                      className="border rounded p-2 w-full"
+                      placeholder="Service Name"
+                    />
+                    <label className="block text-sm font-medium text-gray-700">Service Description:</label>
+                    <textarea
+                      type="text"
+                      value={service.serviceDescription}
                       onChange={(e) =>
-                        handleTimeSlotChange(serviceIndex, timeSlotIndex, 'startTime', e.target.value)
+                        handleServiceChange(serviceIndex, 'serviceDescription', e.target.value)
                       }
                       className="border rounded p-2 w-full"
+                      placeholder="Service Description"
                     />
+                    <label className="block text-sm font-medium text-gray-700">Price:</label>
+                    <input
+                      type="number"
+                      value={service.price}
+                      onChange={(e) => handleServiceChange(serviceIndex, 'price', e.target.value)}
+                      className="border rounded p-2 w-full"
+                      placeholder="Price"
+                    />
+                    {/* add service image  */}
+                    {/* <label className="block text-sm font-medium text-gray-700">Service Image:</label> */}
+                    <div className='relative mt-3 w-full sm:w-[130px] h-[40px]'>
+                      <input
+                        type='file'
+                        onChange={(e) => handleFileInputChangeForServiceImg(e, serviceIndex)}
+                        name='serviceImage'
+                        id='customFile'
+                        accept='.png, .jpg'
+                        className='absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10'
+                      />
+                      <label
+                        htmlFor='customFile'
+                        className='absolute top-0 left-0 w-full h-full flex items-center px-2 text-sm leading-4 overflow-visible bg-slate-100 text-headingColor font-semibold rounded-lg truncate cursor-pointer z-0'
+                      >
+                        {service.serviceImage ? <img src={service.serviceImage} alt="Service" className="w-full h-full" /> : <><FaCamera className='mr-2' style={{ width: '30px', height: '30px' }} />service image</>}
+                      </label>
+                    </div>
 
-                    {/* <button type="button" onClick={() => addTimeSlot(serviceIndex)}>
-                      <div className="flex items-center">
-                        <MdAdd />
-                        <span className="mr-2">Add Time Slot</span>
-                      </div>
-                    </button> */}
+                    <h3 className="text-lg font-semibold mt-2 mb-1">Time Slots</h3>
+                    {service.timeSlots.map((timeSlot, timeSlotIndex) => (
+                      <div key={timeSlotIndex}>
+                        <label className="block text-sm font-medium text-gray-700">Time Slot:</label>
+                        <input
+                          type="time"
+                          value={timeSlot.startTime}
+                          onChange={(e) =>
+                            handleTimeSlotChange(serviceIndex, timeSlotIndex, 'startTime', e.target.value)
+                          }
+                          className="border rounded p-2 w-full"
+                        />
 
-                    <button type="button" onClick={() => removeTimeSlot(serviceIndex, timeSlotIndex)}>
-                      <div className="flex items-center">
-                        <MdRemove />
-                        <span className="mr-2">Remove Time Slot</span>
+                        <button type="button" onClick={() => removeTimeSlot(serviceIndex, timeSlotIndex)}>
+                          <div className="flex items-center">
+                            <MdRemove />
+                            <span className="mr-2">Remove Time Slot</span>
+                          </div>
+                        </button>
                       </div>
+                    ))}
+
+                    <button
+                      type="button"
+                      onClick={() => addTimeSlot(serviceIndex)}
+                      className="bg-btnColor mt-4 text-white py-2 px-4 rounded hover:bg-pink-700 w-full flex items-center justify-center gap-2"
+                    >
+                      Add Time Slot
                     </button>
+
+                    <button
+                      type="button"
+                      onClick={() => removeService(serviceIndex)}
+                      className="bg-btnColor mt-4 text-white py-2 px-4 rounded hover:bg-pink-700 w-full flex items-center justify-center gap-2"
+                    >
+                      Remove Service
+                    </button>
+
                   </div>
                 ))}
 
                 <button
                   type="button"
-                  onClick={() => addTimeSlot(serviceIndex)}
-                  className="bg-btnColor mt-4 text-white py-2 px-4 rounded hover:bg-pink-700 w-full flex items-center justify-center gap-2"
+                  onClick={addService}
+                  className="bg-btnColor mt-6 text-white py-2 px-4 rounded hover:bg-pink-700 w-full flex items-center justify-center gap-2"
                 >
-                  Add Time Slot
+                  Add New Service
                 </button>
-
-                <button
-                type="button"
-                onClick={() => removeService(serviceIndex)}
-                className="bg-btnColor mt-4 text-white py-2 px-4 rounded hover:bg-pink-700 w-full flex items-center justify-center gap-2"
-              >
-                Remove Service
-              </button>
-                {/* ... existing fields */}
-                {/* <button type="button" onClick={() => addTimeSlot(serviceIndex)}>
-                  <div className="flex items-center">
-                    <MdAdd />
-                    <span className="mr-2">Add</span>
-                  </div>
-                </button>
-
-                <button type="button" onClick={() => removeService(serviceIndex)}>
-                  <div className="flex items-center">
-                    <MdRemove />
-                    <span className="mr-2">Remove</span>
-                  </div>
-                </button> */}
-              </div>
-            ))}
-
-            <button
-              type="button"
-              onClick={addService}
-              className="bg-btnColor mt-6 text-white py-2 px-4 rounded hover:bg-pink-700 w-full flex items-center justify-center gap-2"
-            >
-              Add New Service
-            </button>
-            </>
+              </>
             )}
           </div>
-
-
-          {/* Services Section */}
-          {/* <div className="col-span-2">
-            <h2 className='text-xl font-semibold mt-4 mb-2'>Salon Service Section</h2>
-            
-            {Services.map((service, serviceIndex) => (
-              <div key={serviceIndex}>
-               
-                <label className="block text-sm font-medium text-gray-700">Service Name:</label>
-                <input
-                  type="text"
-                  value={service.name}
-                  onChange={(e) => handleServiceChange(serviceIndex, 'name', e.target.value)}
-                  className="border rounded p-2 w-full"
-                  placeholder="Service Name"
-                />
-                <label className="block text-sm font-medium text-gray-700">Service Description:</label>
-                <textarea
-                  type="text"
-                  value={service.serviceDescription}
-                  onChange={(e) => handleServiceChange(serviceIndex, 'serviceDescription', e.target.value)}
-                  className="border rounded p-2 w-full"
-                  placeholder="Service Description"
-                />
-                <label className="block text-sm font-medium text-gray-700">Price:</label>
-                <input
-                  type="number"
-                  value={service.price}
-                  onChange={(e) => handleServiceChange(serviceIndex, 'price', e.target.value)}
-                  className="border rounded p-2 w-full"
-                  placeholder="Price"
-                /> */}
-
-          {/* Time Slots Section */}
-          {/* <h3 className="text-lg font-semibold mt-2 mb-1">Time Slots</h3>
-                {service.timeSlots.map((timeSlot, timeSlotIndex) => (
-                
-                  <div key={timeSlotIndex}> */}
-          {/* <label className="block text-sm font-medium text-gray-700">Day:</label>
-                  <select
-                    value={timeSlot.day}
-                    onChange={(e) =>
-                      handleTimeSlotChange(serviceIndex, timeSlotIndex, 'day', e.target.value)
-                    }
-                    className="border rounded p-2 w-full"
-                  >
-                    <option value="" disabled>
-                      Select day
-                    </option>
-                    {daysOfWeek.map((day) => (
-                      <option key={day} value={day}>
-                        {day}
-                      </option>
-                    ))}
-                  </select> */}
-          {/* <label className="block text-sm font-medium text-gray-700">Time slots:</label>
-                    <input
-                      type="time"
-                      value={timeSlot.startTime}
-                      onChange={(e) =>
-                        handleTimeSlotChange(serviceIndex, timeSlotIndex, 'startTime', e.target.value)
-                      }
-                      className="border rounded p-2 w-full"
-                    />   */}
-          {/* <label className="block text-sm font-medium text-gray-700">End Time:</label>
-                  <input
-                    type="time"
-                    value={timeSlot.endTime}
-                    onChange={(e) =>
-                      handleTimeSlotChange(serviceIndex, timeSlotIndex, 'endTime', e.target.value)
-                    }
-                    className="border rounded p-2 w-full"
-                  /> */}
-
-
-
-          {/* </div>
-
-                  
-                  
-                  ))}
-                <button type="button" onClick={() => addTimeSlot(serviceIndex)}>
-                  <div className="flex items-center">
-                    <MdAdd />
-                    <span className='mr-2'>Add</span>
-                  </div>
-                </button>
-                 
-
-                <button
-                  type="button"
-                  onClick={() => removeTimeSlot(serviceIndex)}
-                >
-                  <div className="flex items-center">
-                    < MdRemove/>
-                    <span className='mr-2'>Remove</span>
-                  </div>
-                </button>
-
-              </div>
-            ))}
-
-
-            <button
-              type="button"
-              onClick={handleSaveServices}
-              className="bg-btnColor mt-4 text-white py-2 px-4 rounded hover:bg-pink-700 w-full flex items-center justify-center gap-2"
-            >
-              Save Services
-            </button>
-          </div> */}
-
-
 
           <hr className='mt-8' />
           <div className="col-span-2">
@@ -897,14 +782,6 @@ const Profile = ({ userData }) => {  // yahan masla thaa
             {loading ? <HashLoader color='#fff' size={32} /> : 'Update'}
 
           </button>
-
-          {/* <p className="mt-4">
-              Already have an account?{' '}
-              <Link to="/salonLogin" className="text-btnColor hover:text-pink-500">
-                Login
-              </Link>
-            </p> */}
-
 
         </div>
       </form>

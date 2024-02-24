@@ -33,11 +33,7 @@ const authReducer = (state, action) => {
       };
 
     case 'LOGOUT':
-      // Clear local storage data on logout
-      // localStorage.removeItem('user');
-      // localStorage.removeItem('salon');
-      // localStorage.removeItem('role');
-      // localStorage.removeItem('token');
+    
       return {
         user: null,
         salon: null,

@@ -4,6 +4,7 @@ import { BASE_URL } from '../../../config';
 import { authContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import Rating from '../Rating/rating';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -51,10 +52,10 @@ const SalonList = () => {
   // Custom responsive settings for the slider
   const responsiveSettings = [
     {
-      breakpoint: 1024,
+      breakpoint: 1920,
       settings: {
         slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToScroll: 2,
         infinite: true,
         speed: 500,
         autoplay: true,
@@ -84,6 +85,7 @@ const SalonList = () => {
       },
     },
   ];
+
   // Custom arrow components
   const PrevArrow = (props) => {
     const { onClick } = props;
@@ -103,20 +105,35 @@ const SalonList = () => {
     );
   };
 
+  // Function to truncate address to 4 to 5 words
+  const truncateAddress = (address) => {
+    const words = address.split(' ');
+    return words.slice(0, 10).join(' ');
+  };
+
   return (
     <section className="flex justify-center items-center">
-      <div className="max-w-[400px] px-5 ">
+      <div className="lg:w-[1000px] md:w-[600px] w-[350px] px-5">
         {loading && <p>Loading...</p>}
         {error && <p>{error}</p>}
-        <Slider dots responsive={responsiveSettings} prevArrow={<PrevArrow />} nextArrow={<NextArrow />}>
+        <Slider
+          dots
+          responsive={responsiveSettings}
+          prevArrow={<PrevArrow />}
+          nextArrow={<NextArrow />}
+        >
           {salonsToDisplay.map((salonItem) => (
-            <div key={salonItem._id} className="instagram-card p-8">
+            <div key={salonItem._id} className="p-4 border border-gray-300 rounded mb-4 w-[300px] ">
               <Link to={`/salonDetail/${salonItem._id}`}>
-                <figure className='w-full h-[200px] mb-2 overflow-hidden'>
-                  <img src={salonItem.photo} alt={''} className='w-full h-full object-cover' />
+                <figure className="w-full h-[200px] mb-4">
+                  <img src={salonItem.photo} alt={''} className="w-full h-full object-cover rounded" />
                 </figure>
                 <h3 className="text-lg font-semibold">{salonItem.ownerName}</h3>
-                <p className="text-gray-500">{salonItem.address}</p>
+                <div className="flex items-center">
+                  <Rating value={5} /> {/* Hardcoded value for demonstration, replace with actual rating */}
+                  <p className="text-gray-500 ml-2">5.0 rating</p>
+                </div>
+                <p className="text-gray-500">{truncateAddress(salonItem.address)}</p>
               </Link>
             </div>
           ))}

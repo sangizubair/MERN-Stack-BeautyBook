@@ -14,6 +14,9 @@ const serviceSchema = new Schema({
         type: Number,
        // required: true,
     },
+    serviceImage:{ // added for the service image
+        type:String,
+    },
     timeSlots: [{
         // day: {
         //     type: String,
@@ -71,12 +74,20 @@ const salonSchema = new Schema({
         default: "salon",
     },
     phone: {
-        type: Number,
+        type: String,
         required: true,
     },
+    // take two numbers for salon transection payment
+   easyPaisa: {
+        type: Number,
+    },
+    jazzCash: {
+        type: Number,
+   },
     photo: {
         type: String,
     },
+   
    
     // coeve images array of iamges
     coverImage: [{

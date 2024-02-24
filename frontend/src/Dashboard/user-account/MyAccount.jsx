@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { BASE_URL } from '../../../config';
 import { authContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import MyBookings from './MyBookings'; // bookings component
 import Profile from './Profile';  // profile component
 import { Link } from 'react-router-dom';
 
@@ -45,7 +44,7 @@ const MyAccount = () => {
         setUserProfile(userData.data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching user profile:', error.message);
+       
         setError('Something went wrong while fetching user profile.');
         setLoading(false);
       }
@@ -66,7 +65,7 @@ const MyAccount = () => {
             <div className='md:col-span-1 md:px-[20px]'>
               <div className='bg-white p-4 rounded-md shadow-xl'>
                 <div className='flex flex-col items-center'>
-                  <figure className='w-[100px] h-[100px] rounded-full border-2 border-solid mb-4'>
+                  <figure className='w-[200px] h-[200px] rounded-full  overflow-hidden border-2 border-solid mb-4'>
                     <img src={userProfile.photo} alt='' className='w-full h-full' />
                   </figure>
                   <div className='text-center'>
@@ -74,14 +73,14 @@ const MyAccount = () => {
                     <p className='text-gray-500'>{userProfile.email}</p>
                   </div>
                   <div className='mt-4 flex flex-col items-center gap-2'>
-                    <button
+                    {/* <button
                       onClick={() => setTab('bookings')}
                       className={`${
                         tab === 'bookings' && 'bg-btnColor text-white font-normal border-none'
                       } btn-style`}
                     >
                       <span className='mr-2'>📅</span> My Bookings
-                    </button>
+                    </button> */}
                     <button
                       onClick={() => setTab('setting')}
                       className={`${
@@ -109,8 +108,8 @@ const MyAccount = () => {
               </div>
             </div>
             <div className='md:col-span-2 md:px-[20px]'>
-              {/* Right side content */}
-              {tab === 'bookings' && <MyBookings />}
+              {/* Right side content
+              {tab === 'bookings' && <MyBookings />} */}
               {tab === 'setting' && <Profile userData={userProfile} />}
               
               {tab === 'salon' && <div><Link to='/salonRegister' > Apply for Salon 

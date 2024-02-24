@@ -27,7 +27,7 @@ const bookingSchema= new Schema ({
         type: Date,
        // required: true,
       },
-
+     
       timeSlot: { // time slot of the appointment
         type: String,
       // required: true,
@@ -37,7 +37,14 @@ const bookingSchema= new Schema ({
         type:String,  // image
         required :true  
       },
-
+       userContact: { // contact of the user
+        type: String,
+       
+      },
+      userName: { // name of the user
+        type: String,
+       
+      },
       status: {  // status of the booking
         type: String,
         enum: ["pending", "approved", "cancelled"],

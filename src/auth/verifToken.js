@@ -28,33 +28,7 @@ export const authenticate = async(req, res, next)=>{
           }
      }
 
-     // salon authenticate
-
-//      export const authenticatesalon = async(req, res, next)=>{
-    
-//         //logic here
-//         const authToken=req.headers.authorization 
-
-//         // check if token exist or not
-//         if (!authToken || !authToken.startsWith('Bearer ')) {
-//             return res.status(401).json({
-//               message:"authorization denied..",
-//               success:false
-//             })
-//         }
-
-//         try {
-//          // console.log(authToken);
-         
-//             next();
-//         } catch (error) {
-//           return res.status(401).json({
-//               message:"invalid token",
-//               success:false
-//           })
-//         }
-//    }
-
+  
 
      // restrict path for user
      export const restrict = roles => async(req,res,next)=>{

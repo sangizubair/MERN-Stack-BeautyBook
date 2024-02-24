@@ -88,7 +88,7 @@ export const loginUser = async (req, res) => {
     const { password, appointments, ...rest } = user._doc
     // Check if user role is undefined and provide a default value
     const userRole = rest.role || 'user';
-    //console.log('Login Response:', { token, data: { ...rest } });
+    
     res.status(200).json({
       status: true,
       message: "successfully login", token, data: { ...rest, role: userRole }
@@ -103,17 +103,7 @@ export const loginUser = async (req, res) => {
   }
 }
 
-// logout controller for user
 
-// export const logout = async(req,res) =>{
-//     try {
-//            // logic  here
-
-
-//     } catch (error) {
-//            // error here
-//     }
-// }
 
 
 const generateTokenSalon = salon => {
@@ -123,9 +113,9 @@ const generateTokenSalon = salon => {
 
 }
 
-// register controller for salon
+// register controller for salon // addeed services images
 export const registerSalon = async (req, res) => {
-  const { ownerName, salonName, email, password, gender, photo, coverImage, phone, cnicNo, experience,
+  const { ownerName, salonName, email, password, gender, photo, coverImage, phone, easyPaisa,  jazzCash,  cnicNo, experience,
     bio,
     location,
     address,
@@ -155,6 +145,8 @@ export const registerSalon = async (req, res) => {
       gender,
       role: req.body.role || 'salon', // Check if salon role is undefined and provide a default value
       phone,
+      easyPaisa,
+      jazzCash,
       cnicNo,
       photo,
       coverImage,
@@ -234,9 +226,9 @@ export const loginSalon = async (req, res) => {
 // create booking controller
 export const bookSalonService = async (req, res) => {
   try {
-    const { salonId, salonName, userId, services, appointmentDate, timeSlot, paymentProofImg } = req.body;
+    const { salonId, salonName, userId, services, appointmentDate,  timeSlot, paymentProofImg ,  userContact ,  userName  } = req.body;
 
-    // Check if the salon exists
+    // Check if the salon exists 
     const salon = await Salon.findById(salonId);
     if (!salon) {
       return res.status(404).json({
@@ -264,6 +256,8 @@ export const bookSalonService = async (req, res) => {
       appointmentDate,
       timeSlot,
       paymentProofImg,
+      userContact,
+      userName,
       status: 'pending',
       isPaid: false, // Modify this based on your business logic
     });
@@ -310,7 +304,7 @@ export const getSalonBookings = async (req, res) => {
 
     // Get the salon's bookings
     const bookings = await Booking.find({ salon: salonId });
-    console.log("bookings", bookings)
+    
 
     res.status(200).json({
       message: 'Salon bookings found',
@@ -320,7 +314,7 @@ export const getSalonBookings = async (req, res) => {
 
     );
   } catch (error) {
-    console.error('Error getting salon bookings:', error);
+    
     res.status(500).json({
       message: 'Failed to get salon bookings',
       success: false,
@@ -400,9 +394,7 @@ export const updateBookingStatus = async (req, res) => {
   try {
     const { bookingId } = req.body; // booking id
     const { salonId } = req.params; //  url se salon id aygi
-    //  const { userId } = req.body; // user id
-    // Check if the booking exists
-    console.log(salonId)
+   
     const booking = await Booking.findById(bookingId);
     if (!booking) {
       return res.status(404).json({
@@ -440,7 +432,7 @@ export const updateBookingStatus = async (req, res) => {
       data: booking,
     });
   } catch (error) {
-    console.error('Error updating booking status:', error);
+   
     res.status(500).json({
       message: 'Failed to update booking status',
       success: false,
@@ -490,7 +482,7 @@ export const updateBookingStatusCancel = async (req, res) => {
       data: booking,
     });
   } catch (error) {
-    console.error('Error updating booking status:', error);
+    
     res.status(500).json({
       message: 'Failed to update booking status',
       success: false,
