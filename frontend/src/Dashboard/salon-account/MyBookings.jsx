@@ -23,6 +23,19 @@ const MyBookings = () => {
   const [showAll, setShowAll] = useState(false);
 
   // this is handleConfirmBooking approved
+  // Function to format time to display AM or PM
+const formatTime = (time) => {
+  // Split the time string into hours and minutes
+  const [hours, minutes] = time.split(':');
+  // Convert hours to a number
+  const hour = parseInt(hours, 10);
+  // Determine whether it's AM or PM based on the hour
+  const period = hour >= 12 ? 'PM' : 'AM';
+  // Convert the hour to 12-hour format
+  const formattedHour = hour % 12 || 12;
+  // Return the formatted time string
+  return `${formattedHour}:${minutes} ${period}`;
+};
   const handleConfirmBooking = async (bookingId) => {
     try {
       const response = await fetch(`${BASE_URL}/auth/updatebooking/${salon._id}`, {
@@ -142,6 +155,7 @@ const MyBookings = () => {
     return userProfile.map(renderBookingCard);
   };
 
+
   // Render each booking card
   const renderBookingCard = (booking) => (
     <div key={booking._id} className='bg-white p-4 rounded-md shadow-xl mt-4 flex flex-wrap'>
@@ -162,7 +176,7 @@ const MyBookings = () => {
             ))}
           <li>
             <p>Booking date: {booking.appointmentDate}</p>
-            <p>Booking Time: {booking.timeSlot}</p>
+            <p>Booking Time: {formatTime(booking.timeSlot)}</p> {/* Format the time here */}
             <p>Status: {booking.status}</p>
             <p>UserName: {booking.userName}</p>
             <p>User Contact: {booking.userContact}</p>

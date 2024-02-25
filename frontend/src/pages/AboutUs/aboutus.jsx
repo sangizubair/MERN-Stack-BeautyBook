@@ -71,7 +71,7 @@ const AboutUs = () => {
 
 const SidebarTab = ({ label, tab, activeTab, onClick }) => (
   <button
-    className={`text-gray-600 hover:text-blue-600 font-bold py-2 px-4 text-left focus:outline-none ${
+    className={`text-gray-600 hover:text-btnColor font-bold py-2 px-4 text-left focus:outline-none ${
       activeTab === tab ? 'text-blue-600' : ''
     } border-b border-gray-300`}
     onClick={() => onClick(tab)}
