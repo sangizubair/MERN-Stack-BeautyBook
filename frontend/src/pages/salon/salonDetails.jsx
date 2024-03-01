@@ -73,38 +73,38 @@ const SalonDetails = () => {
               <h2 className="text-xl font-semibold mb-2">About Us</h2>
               <p className="text-sm leading-7">{salonDetails.bio || 'Beauty salon'}</p>
               <p className='text-sm leading-7'> <strong>Contact</strong>: {salonDetails.phone}</p>
-              <p className='text-sm leading-7'> <strong>Email</strong>: {salonDetails.email }</p>
+              <p className='text-sm leading-7'> <strong>Email</strong>: {salonDetails.email}</p>
 
               {/* Working Hours */}
-             {/* Working Hours */}
-<div className="mt-4">
-  <h2 className="text-xl font-semibold mb-2">Working Hours</h2>
-  <table className="w-full border-collapse">
-    <tbody>
-      {salonDetails.workingHours &&
-        salonDetails.workingHours.map((hours, index) => {
-          const startHour = parseInt(hours.startTime.split(':')[0]);
-          const endHour = parseInt(hours.endTime.split(':')[0]);
-          const startMin = hours.startTime.split(':')[1];
-          const endMin = hours.endTime.split(':')[1];
-          const startPeriod = startHour >= 12 ? 'PM' : 'AM';
-          const endPeriod = endHour >= 12 ? 'PM' : 'AM';
-          const formattedStartTime =
-            startHour > 12 ? `${startHour - 12}:${startMin} ${startPeriod}` : `${startHour}:${startMin} ${startPeriod}`;
-          const formattedEndTime =
-            endHour > 12 ? `${endHour - 12}:${endMin} ${endPeriod}` : `${endHour}:${endMin} ${endPeriod}`;
-          return (
-            <tr key={index}>
-              <td className="border-b border-solid px-4 py-2">{hours.day}</td>
-              <td className="border-b border-solid px-4 py-2">
-                {hours.dayOnOff ? `${formattedStartTime} - ${formattedEndTime}` : 'Closed'}
-              </td>
-            </tr>
-          );
-        })}
-    </tbody>
-  </table>
-</div>
+              {/* Working Hours */}
+              <div className="mt-4">
+                <h2 className="text-xl font-semibold mb-2">Working Hours</h2>
+                <table className="w-full border-collapse">
+                  <tbody>
+                    {salonDetails.workingHours &&
+                      salonDetails.workingHours.map((hours, index) => {
+                        const startHour = parseInt(hours.startTime.split(':')[0]);
+                        const endHour = parseInt(hours.endTime.split(':')[0]);
+                        const startMin = hours.startTime.split(':')[1];
+                        const endMin = hours.endTime.split(':')[1];
+                        const startPeriod = startHour >= 12 ? 'PM' : 'AM';
+                        const endPeriod = endHour >= 12 ? 'PM' : 'AM';
+                        const formattedStartTime =
+                          startHour > 12 ? `${startHour - 12}:${startMin} ${startPeriod}` : `${startHour}:${startMin} ${startPeriod}`;
+                        const formattedEndTime =
+                          endHour > 12 ? `${endHour - 12}:${endMin} ${endPeriod}` : `${endHour}:${endMin} ${endPeriod}`;
+                        return (
+                          <tr key={index}>
+                            <td className="border-b border-solid px-4 py-2">{hours.day}</td>
+                            <td className="border-b border-solid px-4 py-2">
+                              {hours.dayOnOff ? `${formattedStartTime} - ${formattedEndTime}` : 'Closed'}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
 
 
             </div>
@@ -122,10 +122,10 @@ const SalonDetails = () => {
                   <td className="border-b border-solid px-4 py-2">
                     <span className="font-extrabold">{service.name}</span>
                     <div className="mt-1">
-                      <p>{service.serviceDescription}</p>
+                      <p>{service.serviceDescription}</p> 
                     </div>
                   </td>
-                  <td className="border-b border-solid px-4 py-2 text-sm">RS {service.price}</td>
+                  <td className="border-b border-solid px-10 py-2 text-sm">RS {service.price}</td>
                   <td className="border-b border-solid px-4 py-2 text-sm">
                     <Link to={`/booking/${id}/service/${service._id}`}>
                       <button className="bg-btnColor text-white px-2 py-1 mt-2">Book</button>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { BASE_URL } from '../../config';
 import { Link } from 'react-router-dom';
 const Services = () => {
@@ -10,6 +11,7 @@ const Services = () => {
   const [locationFilter, setLocationFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [salonsPerPage] = useState(3);
+   const { id } = useParams();
 
   useEffect(() => {
     const fetchAllSalons = async () => {
@@ -94,10 +96,11 @@ const Services = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredServices.map((service, serviceIndex) =>(
                   <div key={serviceIndex} className="service-card bg-white border border-gray-200 rounded-lg shadow-md p-4">
-                    <Link to={`/salonDetail/${salon._id}`} className="block">
+                    <Link to={`/booking/${salon._id}/service/${service._id}`} className="block">
                       <h4 className="text-lg font-semibold mb-2">{service.serviceDescription}</h4>
                       <p className="mb-2"><strong>Price:</strong> RS{service.price}</p>
                       <img src={service.serviceImage} alt="service" className="w-full h-auto " style={{ maxHeight: '180px', maxWidth : '400px' }} />
+                      <button className="bg-btnColor text-white px-2 py-1 mt-2">Book Now</button>
                     </Link>
                   </div>
                 ))}

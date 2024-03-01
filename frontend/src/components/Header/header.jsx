@@ -79,9 +79,9 @@ const Header = () => {
                 <div className="flex items-center justify-between">
 
                     {/* Logo */}
-                    <div>
+                    <div className="max-w-[90%]">
                         <Link to={"/"}>
-                        <img src={Logo} alt="beautyBook" className="logo w-24 h-24 md:w-32 md:h-32 " />
+                        <img src={Logo} alt="beautyBook" className="logo w-28 h-24 md:w-32 md:h-32 sm:w-40 sm:h-40 " />
                         </Link>
                     </div>
 

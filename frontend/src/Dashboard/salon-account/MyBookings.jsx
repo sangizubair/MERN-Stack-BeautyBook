@@ -36,6 +36,15 @@ const formatTime = (time) => {
   // Return the formatted time string
   return `${formattedHour}:${minutes} ${period}`;
 };
+
+ // Function to format date
+ const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
   const handleConfirmBooking = async (bookingId) => {
     try {
       const response = await fetch(`${BASE_URL}/auth/updatebooking/${salon._id}`, {
@@ -169,13 +178,14 @@ const formatTime = (time) => {
             Array.isArray(booking.services) &&
             booking.services.map((service) => (
               <li key={service._id}>
-                <p className='text-sm font-medium'>Service Name: {service.name}</p>
+                <p className='text font-medium'>Service Name: {service.name}</p>
+                <p className='text font-medium'>Service description : {service.serviceDescription}</p>
                 <p>Service Price: {service.price}</p>
                 {/* ... (display other service details as needed) */}
               </li>
             ))}
           <li>
-            <p>Booking date: {booking.appointmentDate}</p>
+            <p>Booking date: {formatDate(booking.appointmentDate)}</p>
             <p>Booking Time: {formatTime(booking.timeSlot)}</p> {/* Format the time here */}
             <p>Status: {booking.status}</p>
             <p>UserName: {booking.userName}</p>

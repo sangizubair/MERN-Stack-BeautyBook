@@ -2,11 +2,10 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import { FaFacebook, FaInstagram , FaLinkedin , FaWhatsapp } from 'react-icons/fa';
 
-
 const Footer = () => {
   return (
     <footer style={{ backgroundColor: '#DD9F9F' }} className="py-3">
-      <div className="container mx-auto text-white">
+      <div className="container mx-auto text-white ">
         {/* Logo */}
         <div className="text-center mt-3">
           <Link to="/">

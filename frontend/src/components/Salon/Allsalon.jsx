@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import { BASE_URL } from '../../../config';
 import { Link } from 'react-router-dom';
-import SalonProfile from '../../assets/images/salonProfile.png';
+// import SalonProfile from '../../assets/images/salonProfile.png';
 import Rating from '../Rating/rating';
 
 import 'slick-carousel/slick/slick.css';

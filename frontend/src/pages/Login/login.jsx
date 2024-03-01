@@ -70,7 +70,7 @@ const Login = () => {
 
 
   return (
-    <div className='container mt-5 rounded-lg w-full lg:w-[1000px] lg:h-[400px] md:w-[800px] sm:w-[200px] h-auto md:h-[350px] sm:h-[200px] flex-shrink-0 text-center py-10 bg-signUpBgColor'
+    <div className='container mt-5 mb-10  rounded-lg w-full lg:w-[1000px] lg:h-[400px] md:w-[800px] sm:w-[200px] h-auto md:h-[350px] sm:h-[200px] flex-shrink-0 text-center py-10 bg-signUpBgColor'
       style={{ boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.25)' }}>
 
 {/* Left side with pink color */}

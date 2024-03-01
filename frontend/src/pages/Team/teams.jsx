@@ -10,40 +10,44 @@ const Teams = () => {
       <h1 className="text-3xl font-bold text-center mb-8">Our Team</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {/* Card 1 */}
-        <div className="bg-white rounded-lg overflow-hidden shadow-md">
-          <img src={Founder} alt="Team Member 1" className="w-full h-[310px] sm:h-auto md:h-auto object-cover" />
-          <div className="p-4 flex justify-between items-center">
-            <div>
-              <h2 className="text-xl font-bold mb-2">Shafique Ahmed</h2>
-              <p className="text-gray-700">Founder</p>
-            </div>
-            
+
+
+        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <a href="#">
+            <img className="rounded-t-lg" src={Founder} alt="" />
+          </a>
+          <div className="p-5">
+
+            <p className="mb-3 font-extrabold text-center text-lg text-black">Shafique Ahmed</p>
           </div>
+          <div className='text-center m-2'><p>Founder</p></div>
         </div>
 
+
         {/* Card 2 */}
-        <div className="bg-white rounded-lg overflow-hidden shadow-md">
-          <img src={CoFounder} alt="Team Member 2" className="w-full h-[310px] sm:h-auto md:h-auto object-cover" />
-          <div className="p-4 flex justify-between items-center">
-            <div>
-              <h2 className="text-xl font-bold mb-2">Amna Soomro</h2>
-              <p className="text-gray-700">Co-founder</p>
-            </div>
-           
+        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <a href="#">
+            <img className="rounded-t-lg" src={CoFounder} alt="" />
+          </a>
+          <div className="p-5">
+
+            <p className="mb-3 font-extrabold text-center text-lg text-black">Amna Somroo</p>
           </div>
+          <div className='text-center m-2'><p>Co-founder</p></div>
         </div>
 
         {/* Card 3 */}
-        <div className="bg-white rounded-lg overflow-hidden shadow-md">
-          <img src={MernStack} alt="Team Member 3" className="w-full h-[310px] sm:h-auto md:h-auto object-cover" />
-          <div className="p-4 flex justify-between items-center">
-            <div>
-              <h2 className="text-xl font-bold mb-2">M. Usama Qureshi</h2>
-              <p className="text-gray-700">MERN stack developer</p>
-            </div>
-           
+        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <a href="#">
+            <img className="rounded-t-lg" src={MernStack} alt="" />
+          </a>
+          <div className="p-5">
+
+            <p className="mb-3 font-extrabold text-center text-lg text-black">M.Usama Qureshi</p>
           </div>
+          <div className='text-center m-2'><p>MERN stack developer</p></div>
         </div>
+
       </div>
     </div>
   );

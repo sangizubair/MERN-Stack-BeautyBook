@@ -63,9 +63,9 @@ const UserRegister = () => {
   };
 
   return (
-    <div className='container mx-auto rounded-lg mt-10 sm:w-[90%] lg:w-[70%] xl:w-[50%] bg-btnColor text-center py-8'>
+    <div className='container mx-auto mb-10 rounded-lg mt-10 sm:w-[90%] lg:w-[70%] xl:w-[50%] bg-btnColor text-center py-16 sm:py-8 md:py-12'>
       <div className='flex w-300 h-40.135 flex-col justify-center flex-shrink-0'>
-        <h2 className='text-white text-center font-roboto text-35 font-bold'>
+        <h2 className='text-white text-center text-lg font-roboto text-35 font-extrabold'>
           Create an Account
         </h2>
       </div>
