@@ -5,7 +5,6 @@ import authRoute from './routes/auth.js'
 import userRoute from './routes/user.js';
 import salonRoute from './routes/salon.js';
 
-
 const app= express();
 
 
