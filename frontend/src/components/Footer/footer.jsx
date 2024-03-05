@@ -18,7 +18,7 @@ const Footer = () => {
             <FaFacebook size={30}/>
           </a> 
            {/* WhatsApp Link */}
-           <a href="https://wa.me/+923322400879" target="_blank" rel="noopener noreferrer" className="mr-4">
+           <a href="https://wa.me/+923330367784" target="_blank" rel="noopener noreferrer" className="mr-4">
             <FaWhatsapp size={30} />
           </a>
           <a href="https://www.instagram.com/beautybookpakistan?igsh=MTJxdmhxZndnbms5MQ==" target="_blank" rel="noopener noreferrer" className="mr-4">
