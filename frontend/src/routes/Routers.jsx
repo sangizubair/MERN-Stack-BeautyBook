@@ -38,7 +38,7 @@ const Routers = () => {
       <Route path='/blog' element={<Blog/>}/>
       <Route path='/salonDetail/:id' element={<SalonDetail/>}/>
       {/* <Route path='/login' element={<Login/>}/> */}
-      <Route path='/services' element={<Services/>}/>
+      <Route path='/services/:current?' element={<Services/>}/>
       <Route path='/booking/:id/service/:serviceId' element={ <ProtectedRoute allowedRoles={['user' , 'salon']} > <Booking/></ProtectedRoute> }/>
       {/* <Route path='//dashboard/user-account/bookings/:bookingId' element={<ViewDetails/>}/> */}
       {/* <Route path='/register' element={<Register/>}/> */}

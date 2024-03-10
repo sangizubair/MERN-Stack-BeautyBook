@@ -18,7 +18,13 @@ const Services = () => {
   const { id } = useParams();
   // to show all services with toggle button 
   const [showAll, setShowAll] = useState(false);
+  const params = useParams();
   
+  useEffect(() => {
+   if(params.current){
+     setCurrentTab(params.current);
+   }
+  },[]);
 
   const PrevArrow = (props) => {
     const { onClick } = props;
@@ -169,7 +175,7 @@ const Services = () => {
       </div>
 
       <Slider {...settings}>
-        {['Hair Services', 'Whitening Treatments', 'Body Treatments', 'Bleach and Polish ', 'Nail Treatments', 'Facial services', 'makeup', 'Threading services', 'Waxing services', 'Cleansing services', 'Hand and feet services'].map((tabName, index) => (
+        {['Hair Services', 'Whitening Treatments', 'Body Treatments', 'Bleach and Polish', 'Nail Treatments', 'Facial services', 'makeup', 'Threading services', 'Waxing services', 'Cleansing services', 'Hand and feet services'].map((tabName, index) => (
           <button
             key={index}
             onClick={() => handleTabChange(tabName)}
@@ -202,7 +208,7 @@ const Services = () => {
                         </div>
                         <div className="flex justify-center sm:justify-start">
                           <Link to={`/booking/${salon._id}/service/${service._id}`} className="block">
-                            <button className="bg-btnColor text-white px-2 py-1 mt-2 sm:mt-0 sm:ml-2 sm:px-4 sm:py-2 rounded-md">
+                            <button className="bg-btnColor text-white px-3 py-1 mt-2 sm:mt-0 sm:ml-2 sm:px-6 sm:py-2 rounded-md">
                               Book Now
                             </button>
                           </Link>

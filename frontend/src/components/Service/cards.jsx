@@ -19,25 +19,27 @@ const Cards = () => {
             The Services You Get
           </h2>
         </div>
-        <div className='grid justify-items-center grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-12 sm:gap-6 p-2 mt-4'>
+        <div className='grid justify-items-center grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-12 sm:gap-16  p-1'>
 
           {/* Cards */}
-          <Card image={Bodytreat} title="Bodytreatment" />
-          <Card image={Whitening} title="Whitening" />
-          <Card image={Face} title="Facial Services" />
-          <Card image={Hair} title="Hair Services" />
-          <Card image={Nail} title="Nails Services" />
-          <Card image={Wax} title="Wax Services" />
-          <Card image={Handsfeet} title="Hands & Feet" />
-          <Card image={Threading} title="Threading" />
+          <Card image={Bodytreat} title="Bodytreatment" tabname={'Body%20Treatments'} />
+          <Card image={Whitening} title="Whitening" tabname={'Whitening%20Treatments'} />
+          <Card image={Face} title="Facial Services" tabname={'Facial%20services'}/>
+          <Card image={Hair} title="Hair Services" tabname={'Hair%20Services'} />
+          <Card image={Nail} title="Nails Services" tabname={'Nail%20Treatments'}/>
+          <Card image={Wax} title="Wax Services"  tabname={'Waxing%20services'} />
+          <Card image={Handsfeet} title="Hands & Feet" tabname={'Hand%20and%20feet%20services'}/>
+          <Card image={Threading} title="Threading" tabname={'Threading%20services'}/>
         </div>
       </div>
     </section>
   )
 }
 
-const Card = ({ image, title }) => {
+const Card = ({ image, title , tabname }) => {
   return (
+    <Link to={`/services/${tabname}`}>
+    
     <div className='flex-none w-44 m-2 p-3 '> {/* Adjust width to fit all cards in a single row */}
       <div className='py-4 px-3 bg-white shadow-lg'>
         <div className='flex items-center justify-center'>
@@ -49,12 +51,13 @@ const Card = ({ image, title }) => {
           <h2 className='text-lg leading-6 text-center text-headingColor font-semibold'>
             {title}
           </h2>
-          <Link to={'/services'} className='block w-10 h-10 mx-auto mt-4 flex rounded-full border border-solid border-[#181A1E] items-center justify-center group hover:bg-btnColor hover:border-none'>
+          {/* <Link to={`/services/${tabname}`} className='block w-10 h-10 mx-auto mt-4 flex rounded-full border border-solid border-[#181A1E] items-center justify-center group hover:bg-btnColor hover:border-none'>
             <BsArrowRight className='group-hover:text-white w-6 h-6' />
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>
+    </Link>
   )
 }
 

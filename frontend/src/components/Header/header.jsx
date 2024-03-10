@@ -87,7 +87,7 @@ const Header = () => {
 
                     {/* Navigation */}
                     <div className="navigation" ref={menuRef} onClick={toggleMenu}>
-                        <ul className="menu flex items-center gap-[2.7rem]">
+                        <ul className="menu flex items-center gap-[2rem]">
                             {navLinks.map((link, index) => (
                                 <li key={index}>
                                     <NavLink to={link.path} className="text-textColor text-[16px] leading-7 font-[500]"
