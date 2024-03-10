@@ -84,7 +84,7 @@ const Allsalon = () => {
     const { onClick } = props;
     return (
       <div className="custom-arrow prev" onClick={onClick}>
-        <span>&#8592;</span>
+        <span>&#8592;</span> 
       </div>
     );
   };

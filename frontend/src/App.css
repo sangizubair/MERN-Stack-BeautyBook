@@ -83,6 +83,33 @@ body{
   padding: 8px;
 } */
 
+.custom-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.prev {
+  left: 0;
+}
+
+.next {
+  right: 0;
+}
+.custom-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.5); /* Change background color on hover */
+}
+
 /* publications.css */
 .publication-card {
     border: 1px solid #e0e0e0; /* Add border */
@@ -133,4 +160,24 @@ body{
 }
 
   
+/* Add this CSS to your stylesheet */
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  background-color: white;
+  z-index: 1000;
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+
 

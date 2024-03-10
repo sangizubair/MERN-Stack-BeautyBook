@@ -17,7 +17,7 @@ const Home = () => {
    const { role } = useContext(authContext);
    return (
       <>
-         <LocationCard />
+         {/* <LocationCard /> */}
          <Carousel />
          {role === 'salon' ? <SalonList /> : <Allsalon />}
          <ServiceCards />
