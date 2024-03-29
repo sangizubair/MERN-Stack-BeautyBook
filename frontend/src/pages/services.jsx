@@ -29,7 +29,7 @@ const Services = () => {
   const PrevArrow = (props) => {
     const { onClick } = props;
     return (
-      <div className="arrow prev" onClick={onClick}>
+      <div className="arrow pre" onClick={onClick}>
         <FaChevronLeft />
       </div>
     );
@@ -38,7 +38,7 @@ const Services = () => {
   const NextArrow = (props) => {
     const { onClick } = props;
     return (
-      <div className="arrow next" onClick={onClick}>
+      <div className="arrow nex" onClick={onClick}>
         <FaChevronRight />
       </div>
     );
@@ -200,8 +200,12 @@ const Services = () => {
                         <img src={service.serviceImage} alt="service" className="w-full h-auto max-h-[180px] max-w-[400px]" />
                       </td>
                       <td className="p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-                        <div className="flex-grow mb-2 sm:mb-0">
-                          <h4 className="text-lg font-semibold mb-2">{service.serviceDescription}</h4>
+                        {/* <div>
+                          <h3 className="text-xl font-semibold mb-2">{service.name}</h3>
+                        </div> */}
+                        <div className="flex-grow flex-row mb-2 sm:mb-0">
+                          <h3 className="text-sxl sm:text-lg font-semibold mb-2">{service.name}</h3>
+                          <h4 className="text-sm font-semibold mb-2">{service.serviceDescription}</h4>
                         </div>
                         <div>
                           <p className="flex-grow">RS{service.price}</p>

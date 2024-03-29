@@ -89,7 +89,8 @@ body{
   transform: translateY(-50%);
   z-index: 1;
   cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(12, 12, 12, 0.5);
+  color: white;
   width: 40px;
   height: 40px;
   display: flex;
@@ -99,58 +100,26 @@ body{
   transition: background-color 0.3s;
 }
 
-.prev {
+.pre {
   left: 0;
 }
 
-.next {
+.nex {
   right: 0;
 }
 .custom-arrow:hover {
   background-color: rgba(0, 0, 0, 0.5); /* Change background color on hover */
 }
 
-/* publications.css */
-.publication-card {
-    border: 1px solid #e0e0e0; /* Add border */
-    border-radius: 8px; /* Add border radius for rounded corners */
-    margin: 10px; /* Add margin for spacing between cards */
-    padding: 15px; /* Add padding inside the cards */
-  }
-  
-  .publication-image {
-    width: 100%;
-    height: auto;
-    border-radius: 8px; /* Add border radius for rounded corners */
-  }
-  
-  .publication-details {
-    margin-top: 10px; /* Add margin between image and details */
-  }
-  
-  .publication-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px; /* Add margin below title */
-  }
-  
-  .publication-date {
-    font-size: 14px;
-    color: #888;
-    margin-bottom: 5px; /* Add margin below date */
-  }
-  
-  .publication-link {
-    font-size: 14px;
-    color: #007bff;
-    text-decoration: none;
-    display: block;
-  }
+
 
   /* Add hover color for links */
 .header .menu .active {
   color: #ff69b4; /* Pink color */
 }
+
+
+
 
 /* Active link styles */
 .header .menu .active {
@@ -173,11 +142,13 @@ body{
 }
 
 .prev {
-  left: 10px;
+  left: -40px;
 }
 
 .next {
-  right: 10px;
+  right: -30px;
 }
+
+
 
 

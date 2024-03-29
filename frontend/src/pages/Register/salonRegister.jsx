@@ -5,9 +5,17 @@ import { Link , useNavigate } from 'react-router-dom';
 import { toast }  from 'react-toastify';
 import HashLoader from 'react-spinners/HashLoader'
 import { BASE_URL } from '../../../config.js';
+import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 
 const SalonRegister = () => {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  const [passwordError, setPasswordError] = useState('');
+  const  [cnicNoError, setCnicNoError] = useState('');
+  const [isPasswordStrong, setIsPasswordStrong] = useState(false);
   const [formData, setFormData] = useState({
     ownerName: '',
     salonName: '',
@@ -50,13 +58,41 @@ const SalonRegister = () => {
 
   const navigate= useNavigate();
 
+  // hanldeInputChange
+   
   const hanldeInputChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === 'password') {
+      // Password validation regex pattern
+      const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,}$/;
+
+      if (!passwordRegex.test(value)) {
+        // Password does not meet the validation criteria
+        setPasswordError('Password must contain at least one number, one letter, one symbol, and be at least 8 characters long.');
+        setIsPasswordStrong(false);
+      } else {
+        // Clear password error if password is valid
+        setPasswordError('');
+        setIsPasswordStrong(true);
+      }
+    }
+    else if (name === 'cnicNo') {
+      const cnicRegex = /^\d{13}$/;
+
+      if (!cnicRegex.test(value)) {
+        setCnicNoError('CNIC number must be 13 digits long.');
+      }
+      else {
+        setCnicNoError('');
+      }
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
-  
   
 
   const handleSubmit =  async (event) => {
@@ -139,7 +175,7 @@ const SalonRegister = () => {
       alignItems: 'center',
       justifyContent: 'center',
     }}>
-      <div className="bg-white border rounded-md shadow-md p-6 max-w-md mx-auto">
+      <div className="bg-white border rounded-md mt-5 shadow-md p-6 max-w-md mx-auto">
         <h2 className="text-2xl font-bold mb-4">Salon Owner Registration</h2>
         <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
           <div className="mb-4">
@@ -178,17 +214,44 @@ const SalonRegister = () => {
             />
           </div>
 
-          <div className="mb-4">
+          <div className=" relative">
+
             <label className="block text-sm font-medium text-gray-700">Password:</label>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               name='password'
               value={formData.password}
               onChange={hanldeInputChange}
               className="border rounded p-2 w-full"
               placeholder="Password"
+              required
             />
+             <div className="absolute inset-y-0 right-0 pl-6 flex items-center">
+                {showPassword ? (
+                  <HiOutlineEyeOff
+                    className="h-5 w-5 text-gray-400  cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  />
+                ) : (
+                  <HiOutlineEye
+                    className="h-5 w-5 text-gray-400  cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  />
+                )}
+              </div>
+
           </div>
+
+          {passwordError && (
+              <div className="text-red-500 text-sm mt-1 ml-2">
+                {passwordError}
+              </div>
+            )}
+            {isPasswordStrong && !passwordError && (
+              <div className="text-green-500 text-sm mt-1 ml-2">
+                Password is strong
+              </div>
+            )}
 
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Gender:</label>
@@ -228,6 +291,12 @@ const SalonRegister = () => {
               required
             />
           </div>
+          {cnicNoError  && (
+              <div className="text-red-500 text-sm mt-1 ml-2">
+                {cnicNoError}
+              </div>
+            )
+          }
 
           <div className="col-span-2">
             <button

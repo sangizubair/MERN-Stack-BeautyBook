@@ -30,15 +30,15 @@ const navLinks = [
 ];
 
 const Header = () => {
-    const [selectedOption, setSelectedOption] = useState('user');
+    // const [selectedOption, setSelectedOption] = useState('user');
     const menuRef = useRef(null);
     const { user, salon, token, role } = useContext(authContext);
     const headerRef = useRef(null);
     const location = useLocation();
 
-    const handleOptionChange = (event) => {
-        setSelectedOption(event.target.value);
-    };
+    // const handleOptionChange = (event) => {
+    //     setSelectedOption(event.target.value);
+    // };
 
     const handleStickyHeader = () => {
         window.addEventListener('scroll', () => {
@@ -74,14 +74,13 @@ const Header = () => {
     });
 
     return (
-        <header className="header flex items-center bg-white" ref={headerRef}>
+        <header className="header h-[100px] flex items-center bg-white" ref={headerRef}>
             <div className="container">
                 <div className="flex items-center justify-between">
-
                     {/* Logo */}
                     <div className="max-w-[90%]">
                         <Link to={"/"}>
-                        <img src={Logo} alt="beautyBook" className="logo w-28 h-24 md:w-32 md:h-32 sm:w-40 sm:h-40 " />
+                            <img src={Logo} alt="beautyBook" className="logo w-30 h-26 md:w-32 md:h-32 sm:w-40 sm:h-40 " />
                         </Link>
                     </div>
 
@@ -118,11 +117,12 @@ const Header = () => {
                                 </div>
                             ) : (
                                 <>
-                                    <select value={selectedOption} onChange={handleOptionChange}>
-                                        <option value="user">Login as User</option>
-                                        <option value="salon">Login as Salon</option>
-                                    </select>
-                                    <Link to={selectedOption === 'salon' ? '/salonlogin' : '/login'}>
+                                   
+                                    <div flex items-center><Link to={'/salonlogin'} className="text-sm md:text-base">
+                                        <h3 className="whitespace-nowrap underline"> Register Salon
+                                        </h3>
+                                    </Link></div>
+                                    <Link to='/login'>
                                         <button className="bg-btnColor py-2 px-4 flex items-center text-white font-[600] h-[34px] justify-center rounded-[50px]">
                                             Login
                                         </button>

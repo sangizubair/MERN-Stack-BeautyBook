@@ -15,11 +15,11 @@ const Cards = () => {
     <section className='container justify-center items-center p-6'>
       <div className='container bg-cardBgColor'>
         <div className='lg:w-[400px] mx-auto'>
-          <h2 className='heading text-center text-3xl p-5'>
+          <h2 className=' text-center text-xl sm:text-sm xl:text-3xl font-extrabold  p-4  '>
             The Services You Get
           </h2>
         </div>
-        <div className='grid justify-items-center grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-12 sm:gap-16  p-1'>
+        <div className='grid justify-items-center grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-12 sm:gap-12  p-1'>
 
           {/* Cards */}
           <Card image={Bodytreat} title="Bodytreatment" tabname={'Body%20Treatments'} />
@@ -40,7 +40,7 @@ const Card = ({ image, title , tabname }) => {
   return (
     <Link to={`/services/${tabname}`}>
     
-    <div className='flex-none w-44 m-2 p-3 '> {/* Adjust width to fit all cards in a single row */}
+    <div className='flex-none w-44 -m-6  p-3 '> {/* Adjust width to fit all cards in a single row */}
       <div className='py-4 px-3 bg-white shadow-lg'>
         <div className='flex items-center justify-center'>
           <figure className='w-full h-32 overflow-hidden'> {/* Adjust height of the image */}
@@ -51,9 +51,7 @@ const Card = ({ image, title , tabname }) => {
           <h2 className='text-lg leading-6 text-center text-headingColor font-semibold'>
             {title}
           </h2>
-          {/* <Link to={`/services/${tabname}`} className='block w-10 h-10 mx-auto mt-4 flex rounded-full border border-solid border-[#181A1E] items-center justify-center group hover:bg-btnColor hover:border-none'>
-            <BsArrowRight className='group-hover:text-white w-6 h-6' />
-          </Link> */}
+         
         </div>
       </div>
     </div>

@@ -119,7 +119,7 @@ const SalonList = () => {
         <Slider
           dots
           responsive={responsiveSettings}
-          prevArrow={<PrevArrow />}
+          // prevArrow={<PrevArrow />}
           nextArrow={<NextArrow />}
         >
           {salonsToDisplay.map((salonItem) => (

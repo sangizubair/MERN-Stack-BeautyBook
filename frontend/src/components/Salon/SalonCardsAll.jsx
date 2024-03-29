@@ -35,7 +35,7 @@ const SalonCardsAll = () => {
         setAllSalons(salonsData.data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching all salons:', error.message);
+        // console.error('Error fetching all salons:', error.message);
         setError('Something went wrong while fetching all salons.');
         setLoading(false);
       }
@@ -54,7 +54,7 @@ const SalonCardsAll = () => {
       );
       setFilteredSalons(filteredSalons);
     } catch (error) {
-      console.error('Error searching salons:', error.message);
+      // console.error('Error searching salons:', error.message);
     } finally {
       setSearchLoading(false);
     }

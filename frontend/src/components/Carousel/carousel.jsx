@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
 import { RxDotFilled } from 'react-icons/rx';
-import Car1 from '../../assets/images/carousl1.avif';
+import Car1 from '../../assets/images/saloncover.png';
 import Car2 from '../../assets/images/carousl2.avif';
 import Car3 from '../../assets/images/carousl3.avif';
 
@@ -37,12 +37,12 @@ function Carousel() {
   };
 
   return (
-    <div className='max-w-[1400px] h-[400px]   w-full m-auto py-0  relative group'>
+    <div className='max-w-[1400px] h-[500px]   w-full m-auto py-0  relative group'>
       <div className='absolute text-white top-0 left-0 right-0 z-10 mx-auto my-24 text-center'>
-        <h1 className='text-5xl font-bold sm:text-2xl md:text-5xl lg:text-6xl'>
+        <h1 className='text-2xl font-extrabold sm:text-xl md:text-5xl lg:text-6xl'>
           New stylist. New life. New you.
         </h1>
-        <h1 className='p-5 text-base font-semibold sm:text-sm md:text-base lg:text-lg'>
+        <h1 className='p-5 ms-auto text-xs font-semibold sm:text-sm md:text-sm text-center lg:text-lg whitespace-nowrap'>
           Discover and book beauty professionals near you
         </h1>
       </div>

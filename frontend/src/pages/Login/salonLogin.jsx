@@ -4,6 +4,8 @@ import { authContext } from '../../context/AuthContext.jsx';
 import { toast}  from 'react-toastify';
 import { BASE_URL } from '../../../config.js';
 import HashLoader  from 'react-spinners/HashLoader';
+import Logo from '../../assets/images/logo-removebg.png';
+import { HiOutlineMail, HiOutlineEye, HiOutlineEyeOff, HiOutlineKey } from 'react-icons/hi';
 const salonLogin = () => {
   const [formData, setFormData]= useState({
      email:"",
@@ -21,6 +23,10 @@ const salonLogin = () => {
   }
    
   // loading state 
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   // submitHandler function here
   const handleSubmit = async (event) => {
@@ -70,41 +76,68 @@ const salonLogin = () => {
 
 
   return (
-    <div className='container mt-5 mb-10 rounded-lg w-full lg:w-[800px] md:w-[800px] sm:w-[200px] h-auto md:h-[350px] sm:h-[200px] flex-shrink-0 text-center py-10 bg-signUpBgColor'
+    <div className='container mt-5 mb-10 rounded-lg w-full lg:w-[800px] md:w-[800px] sm:w-[200px] lg:h-[400px] h-auto md:h-[350px] sm:h-[200px] flex-shrink-0 text-center py-10 bg-signUpBgColor'
       style={{ boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.25)' }}>
       
-      {/* Left side with pink color */}
-      <div className="w-full md:w-1/2 h-full bg-btnColor md:float-right">
-        <div className="mx-4 md:mx-12">
-          <h1 className="text-white text-2xl md:text-4xl font-bold mt-8 mb-4">Hello, Friend!</h1>
-          <p className="text-white text-sm md:text-base mb-8">Enter your personal details and start your journey with us</p>
-          <button className="bg-white text-btnColor px-4 py-2 rounded-full font-bold text-sm md:text-base">
-            
-          {/* got to salona pplication */}
-          <Link to={'/salonRegister'}>  
-               Apply for salon
-              </Link>
-            </button>
-        </div>
-          <span className='text-white'>dont have salon?</span>
+     
+         {/* rigt side section */}
+      <div className='w-full md:w-1/2 h-full md:float-right flex flex-col justify-center'>
+        <img src={Logo} alt="logo" className="" />
       </div>
-
       {/* Right side with default background color */}
       <div className="w-full md:w-1/2 h-full bg-white">
         {/* Content for the right side */}
         <div className="mx-4 md:mx-12 ">
-          <h2 className="text-btnColor text-2xl md:text-3xl font-bold mt-8 mb-4">Sign in to BeautyBook</h2>
+          <h2 className=" text-2xl md:text-3xl font-extrabold mt-8 mb-4">WELCOME BACK</h2>
+          <div>
+            <h2 className='text-2xl md:text-xl'>Login to your account</h2>
+          </div>
           {/* Form for signin */}
           <form action="" className="flex flex-col space-y-2 mt-4" onSubmit={handleSubmit}>
            
-            <input type="email" name='email' required className="border rounded-md p-2 focus:outline-none focus:border-btnColor" placeholder="Email" value={formData.email} onChange={hanldeInputChange} />
+          <div className="relative ">
+              <input type="email" name='email' required className="border w-full sm:w-[300px] lg:w-[350px] block rounded-md p-2 pl-10 focus:outline-none focus:border-btnColor" placeholder="Email" value={formData.email} onChange={hanldeInputChange} />
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <HiOutlineMail className="h-5 w-5 text-gray-400" />
+              </div>
+            </div>
 
-            <input type="password" name='password' required className="border rounded-md p-2 focus:outline-none focus:border-btnColor" placeholder="Password" value={formData.password} onChange={hanldeInputChange} />
+            <div className="relative ">
+              <input type={showPassword ? 'text' : 'password'} name='password' required className="border block rounded-md p-2 pl-10 focus:outline-none w-full sm:w-[350px] lg:w-[350px] focus:border-btnColor" placeholder="Password" value={formData.password} onChange={hanldeInputChange} />
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <HiOutlineKey className="h-5 w-5 text-gray-400" />
+              </div>
+              <div className="absolute inset-y-0 right-0 pr-20 flex items-center">
+                {showPassword ? (
+                  <HiOutlineEyeOff
+                    className="h-5 w-5 text-gray-400 cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  />
+                ) : (
+                  <HiOutlineEye
+                    className="h-5 w-5 text-gray-400 cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  />
+                )}
+              </div>
+            </div>
+
+            <div className='flex justify-evenly gap-8 p-2'>
+              <div>
+                <label htmlFor="rememberMe" className="flex items-center whitespace-nowrap">
+                  <input type="checkbox" id="rememberMe" className="mr-2 " />
+                  Remember Me
+                </label>
+              </div>
+              <div>
+                <Link className='whitespace-nowrap'>Forget Password?</Link>
+              </div>
+            </div>
 
             <button type='submit' className="bg-btnColor text-white py-2 rounded-full font-bold">
             {loading ? <HashLoader size={35} color='#ffffff'/> : 'Login'}              
               </button>
-            <span className='text-btnColor'>Already have salon?</span>
+              <span className=''>Don’t have an account? <span className='underline'><Link to='/salonRegister'>Apply for salon</Link></span> </span>
           </form>
         </div>
       </div>

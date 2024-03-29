@@ -106,7 +106,7 @@ const Allsalon = () => {
 
   return (
     <section className="flex justify-center items-center">
-      <div className="lg:w-[1000px] md:w-[600px] w-[350px] px-5">
+      <div className="lg:w-[1000px] md:w-[600px] w-[350px] px-6">
         {loading && <p>Loading...</p>}
         {error && <p>{error}</p>}
         {allSalons.length > 0 && (
@@ -116,7 +116,7 @@ const Allsalon = () => {
               dots
               autoplaySpeed={3000}
               responsive={responsiveSettings}
-              prevArrow={<PrevArrow />}
+              // prevArrow={<PrevArrow />}
               nextArrow={<NextArrow />}
             >
               {allSalons.map((salonItem) => (
@@ -127,7 +127,7 @@ const Allsalon = () => {
                     <figure className="w-full h-[200px] mb-4">
                       <img src={salonItem.photo} alt={''} className="w-full h-full object-cover rounded" />
                     </figure>
-                    <h3 className="text-lg font-semibold">{salonItem.salonName}</h3>
+                    <h3 className="text-lg font-semibold ">{salonItem.salonName}</h3>
                     <div className="flex items-center">
                       <Rating value={5} /> {/* Hardcoded value for demonstration, replace with actual rating */}
                       <p className="text-gray-500 ml-2">5.0 rating</p>
